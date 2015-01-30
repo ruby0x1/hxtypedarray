@@ -2,7 +2,31 @@ package haxe.io.buffer;
 
 #if js
 
-typedef UInt8ClampedArray = js.html.Uint8ClampedArray;
+@:forward()
+@:arrayAccess
+abstract UInt8ClampedArray(js.html.Uint8ClampedArray) from js.html.Uint8ClampedArray to js.html.Uint8ClampedArray {
+
+    public inline function new( elements:Int ) {
+        this = new js.html.Uint8ClampedArray(elements);
+    }
+
+    public static inline function fromArray( array:Array<Float> ) : UInt8ClampedArray {
+        return new js.html.Uint8ClampedArray( cast array );
+    }
+
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt8ClampedArray {
+        return new js.html.Uint8ClampedArray( buffer, byteOffset, count );
+    }
+
+    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : UInt8ClampedArray {
+        return new js.html.Uint8ClampedArray( cast view );
+    }
+
+    public function setFromArray( array:Array<Float>, offset : Int = 0 ) {
+        this.set(cast array, offset);
+    }
+
+}
 
 #else
 

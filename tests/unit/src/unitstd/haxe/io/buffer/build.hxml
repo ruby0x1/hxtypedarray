@@ -1,13 +1,21 @@
--main _TestTypedArrays
--cpp cpp
--cp ../../../../../../../std/
--cmd ./cpp/_TestTypedArrays
--lib mohxa
+#-main _TestTypedArrays
+#-cpp cpp
+#-cp ../../../../../../../std/
+#-cmd ./cpp/_TestTypedArrays
+#-lib mohxa
+#
+#--next
+#
+#-main _TestTypedArrays
+#-cp ../../../../../../../std/
+#-neko tests.n
+##-cmd neko tests.n
+#-lib mohxa
+#
+#--next
 
---next
-
 -main _TestTypedArrays
 -cp ../../../../../../../std/
--neko tests.n
+-js tests.js
 #-cmd neko tests.n
 -lib mohxa

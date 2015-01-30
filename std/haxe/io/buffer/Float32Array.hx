@@ -2,8 +2,31 @@ package haxe.io.buffer;
 
 #if js
 
-typedef Float32Array = js.html.Float32Array;
+@:forward()
+@:arrayAccess
+abstract Float32Array(js.html.Float32Array) from js.html.Float32Array to js.html.Float32Array {
 
+    public inline function new( elements:Int ) {
+        this = new js.html.Float32Array(elements);
+    }
+
+    public static inline function fromArray( array:Array<Float> ) : Float32Array {
+        return new js.html.Float32Array( cast array );
+    }
+
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Float32Array {
+        return new js.html.Float32Array( buffer, byteOffset, count );
+    }
+
+    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : Float32Array {
+        return new js.html.Float32Array( cast view );
+    }
+
+    public function setFromArray( array:Array<Float>, offset : Int = 0 ) {
+        this.set(cast array, offset);
+    }
+
+}
 #else
 
 import haxe.io.buffer.ArrayBufferView;

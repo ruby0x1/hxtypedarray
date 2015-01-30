@@ -2,7 +2,31 @@ package haxe.io.buffer;
 
 #if js
 
-typedef Int16Array = js.html.Int16Array;
+@:forward()
+@:arrayAccess
+abstract Int16Array(js.html.Int16Array) from js.html.Int16Array to js.html.Int16Array {
+
+    public inline function new( elements:Int ) {
+        this = new js.html.Int16Array(elements);
+    }
+
+    public static inline function fromArray( array:Array<Float> ) : Int16Array {
+        return new js.html.Int16Array( cast array );
+    }
+
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Int16Array {
+        return new js.html.Int16Array( buffer, byteOffset, count );
+    }
+
+    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : Int16Array {
+        return new js.html.Int16Array( cast view );
+    }
+
+    public function setFromArray( array:Array<Float>, offset : Int = 0 ) {
+        this.set(cast array, offset);
+    }
+
+}
 
 #else
 
