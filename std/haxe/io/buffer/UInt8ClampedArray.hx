@@ -19,14 +19,14 @@ abstract UInt8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
     public inline function new( elements:Int )
         this = new ArrayBufferView( elements, UInt8Clamped );
 
-    public static inline function fromArray( array:Array<Float> )
-        return new ArrayBufferView( null, UInt8Clamped ).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : UInt8ClampedArray
+        return new UInt8ClampedArray(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null )
-        return new ArrayBufferView( null, UInt8Clamped ).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt8ClampedArray
+        return new UInt8ClampedArray(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView )
-        return new ArrayBufferView( null, UInt8Clamped ).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : UInt8ClampedArray
+        return new UInt8ClampedArray(0).initTypedArray( view );
 
 
 //Public API

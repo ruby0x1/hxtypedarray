@@ -20,14 +20,14 @@ abstract Int8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     public inline function new( elements:Int )
         this = new ArrayBufferView( elements, Int8 );
 
-    public static inline function fromArray( array:Array<Float> )
-        return new ArrayBufferView( null, Int8 ).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : Int8Array
+        return new Int8Array(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null )
-        return new ArrayBufferView( null, Int8 ).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Int8Array
+        return new Int8Array(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView )
-        return new ArrayBufferView( null, Int8 ).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : Int8Array
+        return new Int8Array(0).initTypedArray( view );
 
 //Public API
 

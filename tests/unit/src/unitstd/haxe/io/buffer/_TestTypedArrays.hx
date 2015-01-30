@@ -24,6 +24,7 @@ class _TestTypedArrays {
         //float
             run(new TestFloat32Array());
 
+        done();
     }
 
     static var total = 0;
@@ -37,6 +38,19 @@ class _TestTypedArrays {
         failed += instance.failed;
         time += instance.total_time;
 
+    }
+
+    static function done() {
+        trace('completed $total tests, $failed failures (${time}ms)\n');
+
+        #if cpp
+            var code = failed > 0 ? 1 : 0;
+            Sys.exit( code );
+        #else
+            if(failed > 0) {
+                throw 'tests failed';
+            }
+        #end
     }
 
 } //TestTypedArrays

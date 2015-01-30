@@ -20,14 +20,14 @@ abstract Float32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     public inline function new( elements:Int )
         this = new ArrayBufferView( elements, Float32 );
 
-    public static inline function fromArray( array:Array<Float> )
-        return new ArrayBufferView( null, Float32 ).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : Float32Array
+        return new Float32Array(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null )
-        return new ArrayBufferView( null, Float32 ).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Float32Array
+        return new Float32Array(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView )
-        return new ArrayBufferView( null, Float32 ).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : Float32Array
+        return new Float32Array(0).initTypedArray( view );
 
 //Public API
 

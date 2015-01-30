@@ -1,5 +1,5 @@
 -main _TestTypedArrays
 -cpp cpp
 -cp ../../../../../../../std/
--cmd ./cpp/TestTypedArrays
+-cmd ./cpp/_TestTypedArrays
 -lib mohxa

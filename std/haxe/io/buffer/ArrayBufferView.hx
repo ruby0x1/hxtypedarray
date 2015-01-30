@@ -38,8 +38,8 @@ class ArrayBufferView {
 
 
             //other constructor types use
-            //the static init calls below
-        if(elements != null) {
+            //the init calls below
+        if(elements != null && elements != 0) {
 
             if(elements < 0) elements = 0;
             //:note:spec: also has, platform specific max int?

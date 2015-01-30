@@ -20,14 +20,14 @@ abstract UInt16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     public inline function new( elements:Int )
         this = new ArrayBufferView( elements, UInt16 );
 
-    public static inline function fromArray( array:Array<Float> )
-        return new ArrayBufferView( null, UInt16 ).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : UInt16Array
+        return new UInt16Array(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null )
-        return new ArrayBufferView( null, UInt16 ).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt16Array
+        return new UInt16Array(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView )
-        return new ArrayBufferView( null, UInt16 ).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : UInt16Array
+        return new UInt16Array(0).initTypedArray( view );
 
 
 //Public API
