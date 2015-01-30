@@ -125,7 +125,7 @@ class ArrayBufferView {
         byteOffset = 0;
         length = array.length;
 
-        copyFromArray(array);
+        copyFromArray(cast array);
 
         return this;
 
@@ -138,8 +138,9 @@ class ArrayBufferView {
         buffer.blit( toByteLength(offset), view.buffer, view.byteOffset, view.buffer.length );
     }
 
+    @:generic
     public inline function setFromArray<T>( ?array:Array<T>, offset:Int = 0 ) {
-        copyFromArray(array, offset);
+        copyFromArray(cast array, offset);
     }
 
 
