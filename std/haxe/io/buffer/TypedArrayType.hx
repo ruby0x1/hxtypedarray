@@ -11,5 +11,6 @@ abstract TypedArrayType(Int) from Int to Int {
     var UInt16          = 6;
     var UInt32          = 7;
     var Float32         = 8;
+    var Float64         = 9;
 }
 

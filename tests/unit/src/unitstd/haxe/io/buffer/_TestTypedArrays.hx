@@ -23,6 +23,7 @@ class _TestTypedArrays {
             run(new TestUInt32Array());
         //float
             run(new TestFloat32Array());
+            run(new TestFloat64Array());
 
         done();
     }

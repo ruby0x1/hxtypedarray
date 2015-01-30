@@ -42,6 +42,10 @@ class ArrayBufferViewIO {
                 while(i<len) {
                     setFloat32(view, offset+i, array[i]); ++i;
                 }
+            case Float64:
+                while(i<len) {
+                    setFloat64(view, offset+i, array[i]); ++i;
+                }
             case None: throw Error.Custom("copyFromArray on a blank ArrayBufferView");
         } //switch
 
@@ -235,6 +239,33 @@ class ArrayBufferViewIO {
         return value;
 
     }
+
+    public static inline function getFloat64( view:ArrayBufferView, idx:Int ) : Float {
+
+        var pos = idx << 3;
+
+        #if cpp
+            untyped return __global__.__hxcpp_memory_get_double(view.buffer.getData(), view.byteOffset + pos);
+        #elseif neko
+            return view.buffer.getDouble( view.byteOffset + pos );
+        #end
+
+    }
+
+    public static inline function setFloat64( view:ArrayBufferView, idx:Int, value:Float ) : Float {
+
+        var pos = idx << 3;
+
+        #if cpp
+            untyped __global__.__hxcpp_memory_set_double(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.setDouble( view.byteOffset + pos, value );
+        #end
+
+        return value;
+
+    }
+
 
 
 //Internal

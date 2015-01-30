@@ -33,6 +33,7 @@ class ArrayBufferView {
                 case Int32:         4;
                 case UInt32:        4;
                 case Float32:       4;
+                case Float64:       8;
                 case _: 1;
             };
 
@@ -164,15 +165,16 @@ class ArrayBufferView {
                     Int32Array.fromBuffer(buffer, byte_offset, len);
                 case UInt8:
                     UInt8Array.fromBuffer(buffer, byte_offset, len);
+                case UInt8Clamped:
+                    UInt8ClampedArray.fromBuffer(buffer, byte_offset, len);
                 case UInt16:
                     UInt16Array.fromBuffer(buffer, byte_offset, len);
                 case UInt32:
                     UInt32Array.fromBuffer(buffer, byte_offset, len);
                 case Float32:
                     Float32Array.fromBuffer(buffer, byte_offset, len);
-                case UInt8Clamped:
-                    UInt8ClampedArray.fromBuffer(buffer, byte_offset, len);
-
+                case Float64:
+                    Float64Array.fromBuffer(buffer, byte_offset, len);
                 case None: throw Error.Custom("subarray on a blank ArrayBufferView");
             }
 
