@@ -40,9 +40,9 @@ class ArrayBufferViewIO {
                 }
             case Float32:
                 while(i<len) {
-                    setFloat32(view,offset+i,array[i]); ++i;
+                    setFloat32(view, offset+i, array[i]); ++i;
                 }
-            case None: throw Error.Custom("subarray on a blank ArrayBufferView");
+            case None: throw Error.Custom("copyFromArray on a blank ArrayBufferView");
         } //switch
 
     }
@@ -52,10 +52,9 @@ class ArrayBufferViewIO {
         var pos = idx;
 
         #if cpp
-            return untyped __global__.__hxcpp_memory_get_byte(view.buffer.getData(), pos + view.byteOffset);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            return view.buffer.readByte();
+            return untyped __global__.__hxcpp_memory_get_byte(view.buffer.getData(), view.byteOffset + pos);
+        #elseif neko
+            return view.buffer.get( view.byteOffset + pos );
         #end
 
     }
@@ -65,10 +64,9 @@ class ArrayBufferViewIO {
         var pos = idx;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_byte(view.buffer.getData(), pos + view.byteOffset, value);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            view.buffer.writeByte(value);
+            untyped __global__.__hxcpp_memory_set_byte(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.set( view.byteOffset + pos, value );
         #end
 
         return value;
@@ -80,17 +78,16 @@ class ArrayBufferViewIO {
         var pos = idx;
 
         #if cpp
-            return untyped __global__.__hxcpp_memory_get_byte(view.buffer.getData(), pos + view.byteOffset) & 0xff;
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            return view.buffer.readUnsignedByte();
+            return untyped __global__.__hxcpp_memory_get_byte(view.buffer.getData(), view.byteOffset + pos) & 0xff;
+        #elseif neko
+            return view.buffer.get( view.byteOffset + pos );
         #end
 
     }
 
     public static inline function setUInt8Clamped( view:ArrayBufferView, idx:Int, value:UInt ) : UInt {
 
-        return setUInt8(view, idx, _clamp(value));
+        return setUInt8( view, idx, _clamp(value) );
 
     }
 
@@ -99,10 +96,9 @@ class ArrayBufferViewIO {
         var pos = idx;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_byte(view.buffer.getData(), pos + view.byteOffset, value);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            view.buffer.writeByte(value);
+            untyped __global__.__hxcpp_memory_set_byte(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.set( view.byteOffset + pos, value );
         #end
 
         return value;
@@ -114,10 +110,9 @@ class ArrayBufferViewIO {
         var pos = idx << 1;
 
         #if cpp
-            untyped return __global__.__hxcpp_memory_get_i16(view.buffer.getData(), pos + view.byteOffset);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            return view.buffer.readShort();
+            untyped return __global__.__hxcpp_memory_get_i16(view.buffer.getData(), view.byteOffset + pos);
+        #elseif neko
+            return view.buffer.getI32( view.byteOffset + pos );
         #end
 
     }
@@ -127,11 +122,11 @@ class ArrayBufferViewIO {
         var pos = idx << 1;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_i16(view.buffer.getData(), pos + view.byteOffset, value);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            view.buffer.writeShort(Std.int(value));
+            untyped __global__.__hxcpp_memory_set_i16(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.setI32( view.byteOffset + pos, value );
         #end
+
 
         return value;
 
@@ -142,10 +137,9 @@ class ArrayBufferViewIO {
         var pos = idx << 1;
 
         #if cpp
-            untyped return __global__.__hxcpp_memory_get_ui16(view.buffer.getData(), pos + view.byteOffset) & 0xffff;
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            return view.buffer.readUnsignedShort();
+            untyped return __global__.__hxcpp_memory_get_ui16(view.buffer.getData(), view.byteOffset + pos) & 0xffff;
+        #elseif neko
+            return view.buffer.getI32( view.byteOffset + pos );
         #end
 
     }
@@ -155,10 +149,9 @@ class ArrayBufferViewIO {
         var pos = idx << 1;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_ui16(view.buffer.getData(), pos + view.byteOffset, value);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            view.buffer.writeShort(Std.int(value));
+            untyped __global__.__hxcpp_memory_set_ui16(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.setI32( view.byteOffset + pos, value );
         #end
 
         return value;
@@ -170,10 +163,9 @@ class ArrayBufferViewIO {
         var pos = idx << 2;
 
         #if cpp
-            untyped return __global__.__hxcpp_memory_get_i32(view.buffer.getData(), pos + view.byteOffset);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            return view.buffer.readInt();
+            untyped return __global__.__hxcpp_memory_get_i32(view.buffer.getData(), view.byteOffset + pos);
+        #elseif neko
+            return view.buffer.getI32( view.byteOffset + pos );
         #end
 
     }
@@ -183,10 +175,9 @@ class ArrayBufferViewIO {
         var pos = idx << 2;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_i32(view.buffer.getData(), pos + view.byteOffset, value);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            view.buffer.writeInt(Std.int(value));
+            untyped __global__.__hxcpp_memory_set_i32(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.setI32( view.byteOffset + pos, value );
         #end
 
         return value;
@@ -198,10 +189,9 @@ class ArrayBufferViewIO {
         var pos = idx << 2;
 
         #if cpp
-            untyped return __global__.__hxcpp_memory_get_ui32(view.buffer.getData(), pos + view.byteOffset);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            return view.buffer.readUnsignedInt();
+            untyped return __global__.__hxcpp_memory_get_ui32(view.buffer.getData(), view.byteOffset + pos);
+        #elseif neko
+            return view.buffer.getI32( view.byteOffset + pos );
         #end
 
     }
@@ -211,10 +201,9 @@ class ArrayBufferViewIO {
         var pos = idx << 2;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_ui32(view.buffer.getData(), pos + view.byteOffset, value);
-        #else
-            buffer.position = pos + view.byteOffset;
-            buffer.writeUnsignedInt(Std.int(value));
+            untyped __global__.__hxcpp_memory_set_ui32(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.setI32( view.byteOffset + pos, value );
         #end
 
         return value;
@@ -226,10 +215,9 @@ class ArrayBufferViewIO {
         var pos = idx << 2;
 
         #if cpp
-            untyped return __global__.__hxcpp_memory_get_float(view.buffer.getData(), pos + view.byteOffset);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            return view.buffer.readFloat();
+            untyped return __global__.__hxcpp_memory_get_float(view.buffer.getData(), view.byteOffset + pos);
+        #elseif neko
+            return view.buffer.getFloat( view.byteOffset + pos );
         #end
 
     }
@@ -239,10 +227,9 @@ class ArrayBufferViewIO {
         var pos = idx << 2;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_float(view.buffer.getData(), pos + view.byteOffset, value);
-        #else
-            view.buffer.position = pos + view.byteOffset;
-            view.buffer.writeFloat(value);
+            untyped __global__.__hxcpp_memory_set_float(view.buffer.getData(), view.byteOffset + pos, value);
+        #elseif neko
+            view.buffer.setFloat( view.byteOffset + pos, value );
         #end
 
         return value;
