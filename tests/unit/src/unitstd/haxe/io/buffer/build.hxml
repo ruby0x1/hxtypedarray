@@ -3,3 +3,11 @@
 -cp ../../../../../../../std/
 -cmd ./cpp/_TestTypedArrays
 -lib mohxa
+
+--next
+
+-main _TestTypedArrays
+-cp ../../../../../../../std/
+-neko tests.n
+#-cmd neko tests.n
+-lib mohxa
