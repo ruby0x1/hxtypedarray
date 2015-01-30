@@ -1,14 +1,13 @@
 package haxe.io.buffer;
 
-/**
-    Copyright Sven Bergström 2014
-    Created for snow https://github.com/underscorediscovery/snow
-    License MIT
-**/
+#if js
+
+typedef UInt8ClampedArray = js.html.Uint8ClampedArray;
+
+#else
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-
 using haxe.io.buffer.ArrayBufferViewIO;
 
 @:forward()
@@ -32,7 +31,7 @@ abstract UInt8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
 
 //Public API
 
-        //this is required to determine the underlying type in ArrayBufferView
+        //still busy with this
     public function subarray( begin:Int, end:Null<Int> = null) : UInt8ClampedArray return this.subarray(begin, end);
 
 //Internal
@@ -45,3 +44,5 @@ abstract UInt8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
     public inline function __set(idx:Int, val:UInt) return this.setUInt8Clamped(idx, val);
 
 } //UInt8ClampedArray
+
+#end

@@ -1,14 +1,13 @@
 package haxe.io.buffer;
 
-/**
-    Copyright Sven Bergström 2014
-    Created for snow https://github.com/underscorediscovery/snow
-    License MIT
-**/
+#if js
+
+typedef Float32Array = js.html.Float32Array;
+
+#else
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-
 using haxe.io.buffer.ArrayBufferViewIO;
 
 
@@ -32,7 +31,7 @@ abstract Float32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
 //Public API
 
-        //this is required to determine the underlying type in ArrayBufferView
+        //still busy with this
     public function subarray( begin:Int, end:Null<Int> = null) : Float32Array return this.subarray(begin, end);
 
 //Internal
@@ -44,4 +43,6 @@ abstract Float32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     @:noCompletion @:arrayAccess
     public inline function __set(idx:Int, val:Float) : Float return this.setFloat32(idx, val);
 
-} //UInt8Array
+}
+
+#end

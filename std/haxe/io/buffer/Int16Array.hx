@@ -1,14 +1,13 @@
 package haxe.io.buffer;
 
-/**
-    Copyright Sven Bergström 2014
-    Created for snow https://github.com/underscorediscovery/snow
-    License MIT
-**/
+#if js
+
+typedef Int16Array = js.html.Int16Array;
+
+#else
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-
 using haxe.io.buffer.ArrayBufferViewIO;
 
 
@@ -30,10 +29,9 @@ abstract Int16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     public static inline function fromTypedArray( view:ArrayBufferView )
         return new ArrayBufferView( null, Int16 ).initTypedArray( view );
 
-
 //Public API
 
-        //this is required to determine the underlying type in ArrayBufferView
+        //still busy with this
     public function subarray( begin:Int, end:Null<Int> = null) : Int16Array return this.subarray(begin, end);
 
 //Internal
@@ -45,4 +43,6 @@ abstract Int16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     @:noCompletion @:arrayAccess
     public inline function __set(idx:Int, val:Int) return this.setInt16(idx, val);
 
-} //Int16Array
+}
+
+#end

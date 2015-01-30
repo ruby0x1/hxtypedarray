@@ -1,13 +1,13 @@
 package haxe.io.buffer;
 
-using haxe.io.buffer.ArrayBufferViewIO;
-import haxe.io.buffer.TypedArrayType;
+#if js
 
-/**
-    Copyright Sven Bergström 2014
-    Created for snow https://github.com/underscorediscovery/snow
-    License MIT
-**/
+typedef ArrayBufferView = js.html.ArrayBufferView;
+
+#else
+
+import haxe.io.buffer.TypedArrayType;
+using haxe.io.buffer.ArrayBufferViewIO;
 
 class ArrayBufferView {
 
@@ -187,3 +187,5 @@ class ArrayBufferView {
     }
 
 } //ArrayBufferView
+
+#end

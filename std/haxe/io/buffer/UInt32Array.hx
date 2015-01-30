@@ -1,14 +1,13 @@
 package haxe.io.buffer;
 
-/**
-    Copyright Sven Bergström 2014
-    Created for snow https://github.com/underscorediscovery/snow
-    License MIT
-**/
+#if js
+
+typedef UInt32Array = js.html.Uint32Array;
+
+#else
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-
 using haxe.io.buffer.ArrayBufferViewIO;
 
 
@@ -33,7 +32,7 @@ abstract UInt32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
 //Public API
 
-        //this is required to determine the underlying type in ArrayBufferView
+        //still busy with this
     public function subarray( begin:Int, end:Null<Int> = null) : UInt32Array return this.subarray(begin, end);
 
 //Internal
@@ -45,4 +44,6 @@ abstract UInt32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     @:noCompletion @:arrayAccess
     public inline function __set(idx:Int, val:UInt) return this.setUInt32(idx, val);
 
-} //UInt32Array
+}
+
+#end

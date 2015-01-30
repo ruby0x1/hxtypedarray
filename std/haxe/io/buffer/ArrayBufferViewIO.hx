@@ -1,11 +1,6 @@
 package haxe.io.buffer;
 
-/**
-    Copyright Sven Bergström 2014
-    Created for snow https://github.com/underscorediscovery/snow
-    License MIT
-**/
-
+#if !js
 
 class ArrayBufferViewIO {
 
@@ -271,3 +266,5 @@ class ArrayBufferViewIO {
     } //_clamp
 
 } //ArrayBufferViewIO
+
+#end
