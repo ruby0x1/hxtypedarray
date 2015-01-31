@@ -104,11 +104,11 @@ class TestFloat64Array extends mohxa.Mohxa {
 
         describe('Float64Array test05', function(){
 
-            log('creating ArrayBuffer(12) and x,y as Float64Array with buffer and mapping');
+            log('creating ArrayBuffer(16) and x,y as Float64Array with buffer and mapping');
 
-            var buffer = new ArrayBuffer(12);
+            var buffer = new ArrayBuffer(16);
             var x = Float64Array.fromBuffer(buffer, 0, 2);
-            var y = Float64Array.fromBuffer(buffer, 4, 1);
+            var y = Float64Array.fromBuffer(buffer, 8, 1);
 
             log('setting x[1] = 7');
 

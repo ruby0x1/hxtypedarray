@@ -37,10 +37,12 @@ import haxe.io.buffer.TypedArrayType;
 @:arrayAccess
 abstract Float64Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
+    public static var BYTES_PER_ELEMENT : Int = 8;
+
     public var length (get, never):Int;
 
     public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, Float32 );
+        this = new ArrayBufferView( elements, Float64 );
 
     public static inline function fromArray( array:Array<Float> ) : Float64Array
         return new Float64Array(0).initArray(array);
@@ -64,12 +66,12 @@ abstract Float64Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     @:noCompletion
     @:arrayAccess
     public inline function __get(idx:Int) : Float
-        return ArrayBufferIO.getFloat32(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT));
+        return ArrayBufferIO.getFloat64(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT));
 
     @:noCompletion
     @:arrayAccess
     public inline function __set(idx:Int, val:Float) : Float
-        return ArrayBufferIO.setFloat32(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT), val);
+        return ArrayBufferIO.setFloat64(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT), val);
 
 }
 
