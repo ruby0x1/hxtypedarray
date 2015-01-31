@@ -1,5 +1,11 @@
 package haxe.io.buffer;
 
+#if js
+
+typedef DataView = js.html.DataView;
+
+#else
+
 import haxe.io.buffer.ArrayBuffer;
 
 class DataView {
@@ -152,3 +158,5 @@ class DataView {
 
 
 }
+
+#end
