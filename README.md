@@ -48,6 +48,12 @@ Aside from todo below:
 - All data is in bigEndian by default, by spec (see next point)
 - DataView has endianness flags that need to be handled in ArrayBufferIO.
 
+Wondering:
+
+- Error class has OutsideBounds for mapping to RangeError
+  - Bad idea to add reason string in #debug? This would be super useful, has saved me hours before
+  - Error.custom is used a few places, to account for non bounds errors
+
 ###todo:external
 
 - Finish Unit tests for DataView
