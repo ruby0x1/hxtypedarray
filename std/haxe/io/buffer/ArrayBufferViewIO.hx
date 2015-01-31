@@ -4,53 +4,6 @@ package haxe.io.buffer;
 
 class ArrayBufferViewIO {
 
-    public static function copyFromArray( view:ArrayBufferView, array:Array<Float>, ?offset : Int = 0 ) {
-
-        var len = array.length;
-        var i = 0, idx = 0;
-
-        switch(view.type) {
-            case Int8:
-                while(i<len) {
-                    setInt8(view, offset+i, Std.int(array[i])); ++i;
-                }
-            case Int16:
-                while(i<len) {
-                    setInt16(view, offset+i, Std.int(array[i])); ++i;
-                }
-            case Int32:
-                while(i<len) {
-                    setInt32(view, offset+i, Std.int(array[i])); ++i;
-                }
-            case UInt8:
-                while(i<len) {
-                    setUInt8(view, offset+i, Std.int(array[i])); ++i;
-                }
-            case UInt16:
-                while(i<len) {
-                    setUInt16(view, offset+i, Std.int(array[i])); ++i;
-                }
-            case UInt32:
-                while(i<len) {
-                    setUInt32(view, offset+i, Std.int(array[i])); ++i;
-                }
-            case UInt8Clamped:
-                while(i<len) {
-                    setUInt8(view, offset+i, _clamp(array[i])); ++i;
-                }
-            case Float32:
-                while(i<len) {
-                    setFloat32(view, offset+i, array[i]); ++i;
-                }
-            case Float64:
-                while(i<len) {
-                    setFloat64(view, offset+i, array[i]); ++i;
-                }
-            case None: throw Error.Custom("copyFromArray on a blank ArrayBufferView");
-        } //switch
-
-    }
-
     public static inline function getInt8( view:ArrayBufferView, idx:Int ) : Int {
 
         var pos = idx;
@@ -281,13 +234,56 @@ class ArrayBufferViewIO {
 
     }
 
+//Non-spec
 
+    public static function copyFromArray( view:ArrayBufferView, array:Array<Float>, ?offset : Int = 0 ) {
+
+        var len = array.length;
+        var i = 0, idx = 0;
+
+        switch(view.type) {
+            case Int8:
+                while(i<len) {
+                    setInt8(view, offset+i, Std.int(array[i])); ++i;
+                }
+            case Int16:
+                while(i<len) {
+                    setInt16(view, offset+i, Std.int(array[i])); ++i;
+                }
+            case Int32:
+                while(i<len) {
+                    setInt32(view, offset+i, Std.int(array[i])); ++i;
+                }
+            case UInt8:
+                while(i<len) {
+                    setUInt8(view, offset+i, Std.int(array[i])); ++i;
+                }
+            case UInt16:
+                while(i<len) {
+                    setUInt16(view, offset+i, Std.int(array[i])); ++i;
+                }
+            case UInt32:
+                while(i<len) {
+                    setUInt32(view, offset+i, Std.int(array[i])); ++i;
+                }
+            case UInt8Clamped:
+                while(i<len) {
+                    setUInt8(view, offset+i, _clamp(array[i])); ++i;
+                }
+            case Float32:
+                while(i<len) {
+                    setFloat32(view, offset+i, array[i]); ++i;
+                }
+            case Float64:
+                while(i<len) {
+                    setFloat64(view, offset+i, array[i]); ++i;
+                }
+            case None: throw Error.Custom("copyFromArray on a blank ArrayBufferView");
+        } //switch
+
+    }
 
 //Internal
-
-//:todo: the .blit calls are using elements counts, where getData()
-//will always return 1 because its bytes underneath, need a blit with byte values counts
-//cpp.NativeArray.blit( view.buffer, offset, cast array, 0, array.length);
 
         //clamp a Int to a 0-255 UInt8 (for Uint8Clamped array)
    static inline function _clamp(_in:Float) : Int {
@@ -298,6 +294,6 @@ class ArrayBufferViewIO {
 
     } //_clamp
 
-} //ArrayBufferViewIO
+}
 
 #end
