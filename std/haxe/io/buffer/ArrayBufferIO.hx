@@ -9,7 +9,7 @@ class ArrayBufferIO {
 
         #if cpp
             return untyped __global__.__hxcpp_memory_get_byte(buffer.getData(), byteOffset);
-        #elseif neko
+        #else
             var val:Int = buffer.get(byteOffset);
             return ((val & 0x80) != 0) ?(val - 0x100) : val;
         #end
@@ -34,7 +34,7 @@ class ArrayBufferIO {
 
         #if cpp
             return untyped __global__.__hxcpp_memory_get_byte(buffer.getData(), byteOffset) & 0xff;
-        #elseif neko
+        #else
             return buffer.get( byteOffset );
         #end
 
@@ -52,7 +52,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped __global__.__hxcpp_memory_set_byte(buffer.getData(), byteOffset, value);
-        #elseif neko
+        #else
             buffer.set( byteOffset, value );
         #end
 
@@ -64,7 +64,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped return __global__.__hxcpp_memory_get_i16(buffer.getData(), byteOffset);
-        #elseif neko
+        #else
             var b = buffer;
             var ch1 = b.get(byteOffset    );
             var ch2 = b.get(byteOffset + 1);
@@ -84,6 +84,8 @@ class ArrayBufferIO {
             untyped var b = buffer.b;
             untyped __dollar__sset(b, byteOffset  , (value >> 8) & 0xff);
             untyped __dollar__sset(b, byteOffset+1, (value     ) & 0xff);
+        #else
+            #error "unimplemented";
         #end
 
 
@@ -96,7 +98,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped return __global__.__hxcpp_memory_get_ui16(buffer.getData(), byteOffset) & 0xffff;
-        #elseif neko
+        #else
             var ch1 = buffer.get(byteOffset    );
             var ch2 = buffer.get(byteOffset + 1);
             return (ch1 << 8) | ch2;
@@ -109,7 +111,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped __global__.__hxcpp_memory_set_ui16(buffer.getData(), byteOffset, value);
-        #elseif neko
+        #else
             setInt16(buffer, byteOffset, value);
         #end
 
@@ -124,6 +126,8 @@ class ArrayBufferIO {
             untyped return __global__.__hxcpp_memory_get_i32(buffer.getData(), byteOffset);
         #elseif neko
             return buffer.getI32( byteOffset );
+        #else
+            #error "unimplemented";
         #end
 
     }
@@ -135,6 +139,8 @@ class ArrayBufferIO {
             untyped __global__.__hxcpp_memory_set_i32(buffer.getData(), byteOffset, value);
         #elseif neko
             buffer.setI32( byteOffset, value );
+        #else
+            #error "unimplemented";
         #end
 
         return value;
@@ -148,6 +154,8 @@ class ArrayBufferIO {
             untyped return __global__.__hxcpp_memory_get_ui32(buffer.getData(), byteOffset);
         #elseif neko
             return buffer.getI32( byteOffset );
+        #else
+            #error "unimplemented";
         #end
 
     }
@@ -159,6 +167,8 @@ class ArrayBufferIO {
             untyped __global__.__hxcpp_memory_set_ui32(buffer.getData(), byteOffset, value);
         #elseif neko
             buffer.setI32( byteOffset, value );
+        #else
+            #error "unimplemented";
         #end
 
         return value;
@@ -170,7 +180,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped return __global__.__hxcpp_memory_get_float(buffer.getData(), byteOffset);
-        #elseif neko
+        #else
             return buffer.getFloat( byteOffset );
         #end
 
@@ -181,7 +191,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped __global__.__hxcpp_memory_set_float(buffer.getData(), byteOffset, value);
-        #elseif neko
+        #else
             buffer.setFloat( byteOffset, value );
         #end
 
@@ -194,7 +204,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped return __global__.__hxcpp_memory_get_double(buffer.getData(), byteOffset);
-        #elseif neko
+        #else
             return buffer.getDouble( byteOffset );
         #end
 
@@ -205,7 +215,7 @@ class ArrayBufferIO {
 
         #if cpp
             untyped __global__.__hxcpp_memory_set_double(buffer.getData(), byteOffset, value);
-        #elseif neko
+        #else
             buffer.setDouble( byteOffset, value );
         #end
 
@@ -216,7 +226,7 @@ class ArrayBufferIO {
 //Internal
 
     #if !no_typedarray_inline inline #end
-    //clamp a Int to a 0-255 UInt8 (for Uint8Clamped array)
+    //clamp a Int to a 0-255 Uint8 (for Uint8Clamped array)
     static function _clamp(_in:Float) : Int {
 
         var _out = Std.int(_in);
