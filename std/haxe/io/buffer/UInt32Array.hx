@@ -32,7 +32,6 @@ abstract UInt32Array(js.html.Uint32Array) from js.html.Uint32Array to js.html.Ui
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-using haxe.io.buffer.ArrayBufferViewIO;
 
 
 @:forward()
@@ -63,10 +62,16 @@ abstract UInt32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     function get_length() return this.length;
 
-    @:noCompletion @:arrayAccess
-    public inline function __get(idx:Int) return this.getUInt32(idx);
-    @:noCompletion @:arrayAccess
-    public inline function __set(idx:Int, val:UInt) return this.setUInt32(idx, val);
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __get(idx:Int)
+        return ArrayBufferIO.getUInt32(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT));
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __set(idx:Int, val:UInt)
+        return ArrayBufferIO.setUInt32(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT), val);
 
 }
 

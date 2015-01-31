@@ -31,7 +31,6 @@ abstract UInt16Array(js.html.Uint16Array) from js.html.Uint16Array to js.html.Ui
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-using haxe.io.buffer.ArrayBufferViewIO;
 
 
 @:forward()
@@ -62,10 +61,16 @@ abstract UInt16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     function get_length() return this.length;
 
-    @:noCompletion @:arrayAccess
-    public inline function __get(idx:Int) return this.getUInt16(idx);
-    @:noCompletion @:arrayAccess
-    public inline function __set(idx:Int, val:UInt) return this.setUInt16(idx, val);
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __get(idx:Int)
+        return ArrayBufferIO.getUInt16(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT));
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __set(idx:Int, val:UInt)
+        return ArrayBufferIO.setUInt16(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT), val);
 
 }
 

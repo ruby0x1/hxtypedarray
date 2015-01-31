@@ -31,7 +31,6 @@ abstract Float32Array(js.html.Float32Array) from js.html.Float32Array to js.html
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-using haxe.io.buffer.ArrayBufferViewIO;
 
 
 @:forward()
@@ -61,10 +60,16 @@ abstract Float32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     function get_length() return this.length;
 
-    @:noCompletion @:arrayAccess
-    public inline function __get(idx:Int) : Float return this.getFloat32(idx);
-    @:noCompletion @:arrayAccess
-    public inline function __set(idx:Int, val:Float) : Float return this.setFloat32(idx, val);
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __get(idx:Int) : Float
+        return ArrayBufferIO.getFloat32(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT) );
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __set(idx:Int, val:Float) : Float
+        return ArrayBufferIO.setFloat32(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT), val);
 
 }
 

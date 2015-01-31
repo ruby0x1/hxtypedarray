@@ -32,7 +32,6 @@ abstract UInt8Array(js.html.Uint8Array) from js.html.Uint8Array to js.html.Uint8
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-using haxe.io.buffer.ArrayBufferViewIO;
 
 
 @:forward()
@@ -63,10 +62,16 @@ abstract UInt8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     function get_length() return this.length;
 
-    @:noCompletion @:arrayAccess
-    public inline function __get(idx:Int) return this.getUInt8(idx);
-    @:noCompletion @:arrayAccess
-    public inline function __set(idx:Int, val:UInt) return this.setUInt8(idx, val);
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __get(idx:Int)
+        return ArrayBufferIO.getUInt8(this.buffer, this.byteOffset+idx);
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __set(idx:Int, val:UInt)
+        return ArrayBufferIO.setUInt8(this.buffer, this.byteOffset+idx, val);
 
 }
 

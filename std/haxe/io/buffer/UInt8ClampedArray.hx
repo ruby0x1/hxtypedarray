@@ -32,7 +32,6 @@ abstract UInt8ClampedArray(js.html.Uint8ClampedArray) from js.html.Uint8ClampedA
 
 import haxe.io.buffer.ArrayBufferView;
 import haxe.io.buffer.TypedArrayType;
-using haxe.io.buffer.ArrayBufferViewIO;
 
 @:forward()
 @:arrayAccess
@@ -62,10 +61,17 @@ abstract UInt8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
 
     function get_length() return this.length;
 
-    @:noCompletion @:arrayAccess
-    public inline function __get(idx:Int) return this.getUInt8(idx);
-    @:noCompletion @:arrayAccess
-    public inline function __set(idx:Int, val:UInt) return this.setUInt8Clamped(idx, val);
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __get(idx:Int)
+        return ArrayBufferIO.getUInt8(this.buffer, this.byteOffset+idx);
+
+    @:noCompletion
+    @:arrayAccess
+    public inline function __set(idx:Int, val:UInt)
+        return ArrayBufferIO.setUInt8Clamped(this.buffer, this.byteOffset+idx, val);
+
 
 } //UInt8ClampedArray
 
