@@ -29,8 +29,8 @@
 
 Aside from todo below:
 
-- Spec allows new Float32Array(Int8ArrayInstance) with conversion
-  - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17
+- (will implement) Spec allows Float32ArrayInst.set(Int8ArrayInstance) and similar with conversion
+  - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17 , [example implementation in js polyfill](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js#L734)
   - spec for conversion, [get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvaluefrombuffer)/[set](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-setvalueinbuffer) 
 - ArrayBufferView includes bytesPerElement as a local instance variable for code simplification and convenience of not switch(type) where it is used
 - variadic constructors broken down into statics, i.e
@@ -45,6 +45,7 @@ Aside from todo below:
 
 ###todo:
 
+- conversion notes above in Differences
 - All data is in bigEndian by default, by spec (see next point)
 - DataView has endianness flags that need to be handled in ArrayBufferIO.
 
@@ -56,7 +57,7 @@ Wondering:
 
 ###todo:external
 
-- Finish Unit tests for DataView
+- Finish Unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)
 - Basic performance tests for regression, all types
 - port tests to unitstd type and test in haxe folder
 - Document user facing API functions and class types according to spec
