@@ -9,7 +9,7 @@
 ###todo:
 
 - conversion notes above in Differences
-- All data is in bigEndian by default, by spec (see next point)
+- All data is in unspecified endian atm by default, by spec but will confirm with #3 and
 - DataView has endianness flags that need to be handled in ArrayBufferIO.
 
 Wondering:
