@@ -1,6 +1,6 @@
 
 import haxe.io.buffer.ArrayBuffer;
-import haxe.io.buffer.UInt32Array;
+import haxe.io.buffer.Uint32Array;
 
 /**
     Copyright Sven Bergström, Thomas Hourdel 2014
@@ -14,11 +14,11 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         super();
 
-        describe('UInt32Array test01', function(){
+        describe('Uint32Array test01', function(){
 
-            log('creating UInt32Array of 2 elements');
+            log('creating Uint32Array of 2 elements');
 
-            var x = new UInt32Array(2);
+            var x = new Uint32Array(2);
 
             log('setting [0] to 17');
 
@@ -32,11 +32,11 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         }); //test01
 
-        describe('UInt32Array test02', function(){
+        describe('Uint32Array test02', function(){
 
-            log('creating UInt32Array from array of 2 [17,-45]');
+            log('creating Uint32Array from array of 2 [17,-45]');
 
-            var x = UInt32Array.fromArray([17, -45]);
+            var x = Uint32Array.fromArray([17, -45]);
 
             it('should be correctly constructed from array of Int, wrapping negative value', function(){
                 equal( 17, x[0], 'element [0] == 17' );
@@ -46,13 +46,13 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         }); //test02
 
-        describe('UInt32Array test03', function(){
+        describe('Uint32Array test03', function(){
 
-            log('creating UInt32Array x from array of 2 [17,-45]');
-            log('creating second UInt32Array y from first array .buffer');
+            log('creating Uint32Array x from array of 2 [17,-45]');
+            log('creating second Uint32Array y from first array .buffer');
 
-            var x = UInt32Array.fromArray([17, -45]);
-            var y = UInt32Array.fromBuffer(x.buffer);
+            var x = Uint32Array.fromArray([17, -45]);
+            var y = Uint32Array.fromBuffer(x.buffer);
 
             it('should share a buffer from other array buffer, wrapped value', function(){
 
@@ -74,13 +74,13 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         }); //test3
 
-        describe('UInt32Array test04', function(){
+        describe('Uint32Array test04', function(){
 
-            log('creating UInt32Array x from array of 2 [17,-45]');
-            log('creating second UInt32Array y from first array itself');
+            log('creating Uint32Array x from array of 2 [17,-45]');
+            log('creating second Uint32Array y from first array itself');
 
-            var x = UInt32Array.fromArray([17, -45]);
-            var y = UInt32Array.fromTypedArray(x);
+            var x = Uint32Array.fromArray([17, -45]);
+            var y = Uint32Array.fromTypedArray(x);
 
             it('should share a buffer from other array', function(){
 
@@ -102,13 +102,13 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         }); //test4
 
-        describe('UInt32Array test05', function(){
+        describe('Uint32Array test05', function(){
 
-            log('creating ArrayBuffer(12) and x,y as UInt32Array with buffer and mapping');
+            log('creating ArrayBuffer(12) and x,y as Uint32Array with buffer and mapping');
 
             var buffer = new ArrayBuffer(12);
-            var x = UInt32Array.fromBuffer(buffer, 0, 2);
-            var y = UInt32Array.fromBuffer(buffer, 4, 1);
+            var x = Uint32Array.fromBuffer(buffer, 0, 2);
+            var y = Uint32Array.fromBuffer(buffer, 4, 1);
 
             log('setting x[1] = 7');
 
@@ -122,11 +122,11 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         }); //test5
 
-        describe('UInt32Array test06', function(){
+        describe('Uint32Array test06', function(){
 
-            log('creating UInt32Array(10)');
+            log('creating Uint32Array(10)');
 
-            var x = new UInt32Array(10);
+            var x = new Uint32Array(10);
 
             log('calling set([18,93,42],3)');
 
@@ -142,17 +142,17 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         }); //test6
 
-        describe('UInt32Array test07', function(){
+        describe('Uint32Array test07', function(){
 
-            log('creating UInt32Array(10)');
+            log('creating Uint32Array(10)');
 
-            var x = new UInt32Array(10);
+            var x = new Uint32Array(10);
 
-            log('calling set(UInt32Array.fromArray([18, 93, 42]), 3)');
+            log('calling set(Uint32Array.fromArray([18, 93, 42]), 3)');
 
-            x.set(UInt32Array.fromArray([18, 93, 42]), 3);
+            x.set(Uint32Array.fromArray([18, 93, 42]), 3);
 
-            it('should set from other UInt32Array', function(){
+            it('should set from other Uint32Array', function(){
 
                 equal(18, x[3], 'x[3] == 18');
                 equal(93, x[4], 'x[4] == 93');
@@ -162,11 +162,11 @@ class TestUInt32Array extends mohxa.Mohxa {
 
         }); //test7
 
-        describe('UInt32Array test08', function(){
+        describe('Uint32Array test08', function(){
 
-            log('creating x = UInt32Array([0, 1, 2, 3, 4, 5])');
+            log('creating x = Uint32Array([0, 1, 2, 3, 4, 5])');
 
-            var x = UInt32Array.fromArray([0, 1, 2, 3, 4, 5]);
+            var x = Uint32Array.fromArray([0, 1, 2, 3, 4, 5]);
 
             log('creating y = x.subarray(2,5)');
 

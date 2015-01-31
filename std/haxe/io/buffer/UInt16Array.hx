@@ -4,21 +4,21 @@ package haxe.io.buffer;
 
 @:forward()
 @:arrayAccess
-abstract UInt16Array(js.html.Uint16Array) from js.html.Uint16Array to js.html.Uint16Array {
+abstract Uint16Array(js.html.Uint16Array) from js.html.Uint16Array to js.html.Uint16Array {
 
     public inline function new( elements:Int ) {
         this = new js.html.Uint16Array(elements);
     }
 
-    public static inline function fromArray( array:Array<Float> ) : UInt16Array {
+    public static inline function fromArray( array:Array<Float> ) : Uint16Array {
         return new js.html.Uint16Array( cast array );
     }
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt16Array {
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint16Array {
         return new js.html.Uint16Array( buffer, byteOffset, count );
     }
 
-    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : UInt16Array {
+    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : Uint16Array {
         return new js.html.Uint16Array( cast view );
     }
 
@@ -35,29 +35,29 @@ import haxe.io.buffer.TypedArrayType;
 
 @:forward()
 @:arrayAccess
-abstract UInt16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
+abstract Uint16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public static var BYTES_PER_ELEMENT : Int = 2;
 
     public var length (get, never):Int;
 
     public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, UInt16 );
+        this = new ArrayBufferView( elements, Uint16 );
 
-    public static inline function fromArray( array:Array<Float> ) : UInt16Array
-        return new UInt16Array(0).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : Uint16Array
+        return new Uint16Array(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt16Array
-        return new UInt16Array(0).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint16Array
+        return new Uint16Array(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView ) : UInt16Array
-        return new UInt16Array(0).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : Uint16Array
+        return new Uint16Array(0).initTypedArray( view );
 
 
 //Public API
 
         //still busy with this
-    public function subarray( begin:Int, end:Null<Int> = null) : UInt16Array return this.subarray(begin, end);
+    public function subarray( begin:Int, end:Null<Int> = null) : Uint16Array return this.subarray(begin, end);
 
 //Internal
 

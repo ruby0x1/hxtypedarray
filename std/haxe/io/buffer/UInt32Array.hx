@@ -4,21 +4,21 @@ package haxe.io.buffer;
 
 @:forward()
 @:arrayAccess
-abstract UInt32Array(js.html.Uint32Array) from js.html.Uint32Array to js.html.Uint32Array {
+abstract Uint32Array(js.html.Uint32Array) from js.html.Uint32Array to js.html.Uint32Array {
 
     public inline function new( elements:Int ) {
         this = new js.html.Uint32Array(elements);
     }
 
-    public static inline function fromArray( array:Array<Float> ) : UInt32Array {
+    public static inline function fromArray( array:Array<Float> ) : Uint32Array {
         return new js.html.Uint32Array( cast array );
     }
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt32Array {
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint32Array {
         return new js.html.Uint32Array( buffer, byteOffset, count );
     }
 
-    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : UInt32Array {
+    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : Uint32Array {
         return new js.html.Uint32Array( cast view );
     }
 
@@ -36,29 +36,29 @@ import haxe.io.buffer.TypedArrayType;
 
 @:forward()
 @:arrayAccess
-abstract UInt32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
+abstract Uint32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public static var BYTES_PER_ELEMENT : Int = 4;
 
     public var length (get, never):Int;
 
     public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, UInt32 );
+        this = new ArrayBufferView( elements, Uint32 );
 
-    public static inline function fromArray( array:Array<Float> ) : UInt32Array
-        return new UInt32Array(0).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : Uint32Array
+        return new Uint32Array(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt32Array
-        return new UInt32Array(0).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint32Array
+        return new Uint32Array(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView ) : UInt32Array
-        return new UInt32Array(0).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : Uint32Array
+        return new Uint32Array(0).initTypedArray( view );
 
 
 //Public API
 
         //still busy with this
-    public function subarray( begin:Int, end:Null<Int> = null) : UInt32Array return this.subarray(begin, end);
+    public function subarray( begin:Int, end:Null<Int> = null) : Uint32Array return this.subarray(begin, end);
 
 //Internal
 

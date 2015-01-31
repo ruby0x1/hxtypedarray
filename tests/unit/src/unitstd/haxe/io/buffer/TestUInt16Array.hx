@@ -1,6 +1,6 @@
 
 import haxe.io.buffer.ArrayBuffer;
-import haxe.io.buffer.UInt16Array;
+import haxe.io.buffer.Uint16Array;
 
 /**
     Copyright Sven Bergström, Thomas Hourdel 2014
@@ -14,11 +14,11 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         super();
 
-        describe('UInt16Array test01', function(){
+        describe('Uint16Array test01', function(){
 
-            log('creating UInt16Array of 2 elements');
+            log('creating Uint16Array of 2 elements');
 
-            var x = new UInt16Array(2);
+            var x = new Uint16Array(2);
 
             log('setting [0] to 17');
 
@@ -32,11 +32,11 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         }); //test01
 
-        describe('UInt16Array test02', function(){
+        describe('Uint16Array test02', function(){
 
-            log('creating UInt16Array from array of 2 [17,-45]');
+            log('creating Uint16Array from array of 2 [17,-45]');
 
-            var x = UInt16Array.fromArray([17, -45]);
+            var x = Uint16Array.fromArray([17, -45]);
 
             it('should be correctly constructed from array of Int, wrapping negative value', function(){
                 equal( 17, x[0], 'element [0] == 17' );
@@ -46,13 +46,13 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         }); //test02
 
-        describe('UInt16Array test03', function(){
+        describe('Uint16Array test03', function(){
 
-            log('creating UInt16Array x from array of 2 [17,-45]');
-            log('creating second UInt16Array y from first array .buffer');
+            log('creating Uint16Array x from array of 2 [17,-45]');
+            log('creating second Uint16Array y from first array .buffer');
 
-            var x = UInt16Array.fromArray([17, -45]);
-            var y = UInt16Array.fromBuffer(x.buffer);
+            var x = Uint16Array.fromArray([17, -45]);
+            var y = Uint16Array.fromBuffer(x.buffer);
 
             it('should share a buffer from other array buffer, wrapped value', function(){
 
@@ -74,13 +74,13 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         }); //test3
 
-        describe('UInt16Array test04', function(){
+        describe('Uint16Array test04', function(){
 
-            log('creating UInt16Array x from array of 2 [17,-45]');
-            log('creating second UInt16Array y from first array itself');
+            log('creating Uint16Array x from array of 2 [17,-45]');
+            log('creating second Uint16Array y from first array itself');
 
-            var x = UInt16Array.fromArray([17, -45]);
-            var y = UInt16Array.fromTypedArray(x);
+            var x = Uint16Array.fromArray([17, -45]);
+            var y = Uint16Array.fromTypedArray(x);
 
             it('should share a buffer from other array', function(){
 
@@ -102,13 +102,13 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         }); //test4
 
-        describe('UInt16Array test05', function(){
+        describe('Uint16Array test05', function(){
 
-            log('creating ArrayBuffer(12) and x,y as UInt16Array with buffer and mapping');
+            log('creating ArrayBuffer(12) and x,y as Uint16Array with buffer and mapping');
 
             var buffer = new ArrayBuffer(12);
-            var x = UInt16Array.fromBuffer(buffer, 0, 6);
-            var y = UInt16Array.fromBuffer(buffer, 4, 1);
+            var x = Uint16Array.fromBuffer(buffer, 0, 6);
+            var y = Uint16Array.fromBuffer(buffer, 4, 1);
 
             log('setting x[2] = 4');
 
@@ -122,11 +122,11 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         }); //test5
 
-        describe('UInt16Array test06', function(){
+        describe('Uint16Array test06', function(){
 
-            log('creating UInt16Array(10)');
+            log('creating Uint16Array(10)');
 
-            var x = new UInt16Array(10);
+            var x = new Uint16Array(10);
 
             log('calling set([18,93,42],3)');
 
@@ -142,17 +142,17 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         }); //test6
 
-        describe('UInt16Array test07', function(){
+        describe('Uint16Array test07', function(){
 
-            log('creating UInt16Array(10)');
+            log('creating Uint16Array(10)');
 
-            var x = new UInt16Array(10);
+            var x = new Uint16Array(10);
 
-            log('calling set(UInt16Array.fromArray([18, 93, 42]), 3)');
+            log('calling set(Uint16Array.fromArray([18, 93, 42]), 3)');
 
-            x.set(UInt16Array.fromArray([18, 93, 42]), 3);
+            x.set(Uint16Array.fromArray([18, 93, 42]), 3);
 
-            it('should set from other UInt16Array', function(){
+            it('should set from other Uint16Array', function(){
 
                 equal(18, x[3], 'x[3] == 18');
                 equal(93, x[4], 'x[4] == 93');
@@ -162,11 +162,11 @@ class TestUInt16Array extends mohxa.Mohxa {
 
         }); //test7
 
-        describe('UInt16Array test08', function(){
+        describe('Uint16Array test08', function(){
 
-            log('creating x = UInt16Array([0, 1, 2, 3, 4, 5])');
+            log('creating x = Uint16Array([0, 1, 2, 3, 4, 5])');
 
-            var x = UInt16Array.fromArray([0, 1, 2, 3, 4, 5]);
+            var x = Uint16Array.fromArray([0, 1, 2, 3, 4, 5]);
 
             log('creating y = x.subarray(2,5)');
 

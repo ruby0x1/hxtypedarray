@@ -4,21 +4,21 @@ package haxe.io.buffer;
 
 @:forward()
 @:arrayAccess
-abstract UInt8Array(js.html.Uint8Array) from js.html.Uint8Array to js.html.Uint8Array {
+abstract Uint8Array(js.html.Uint8Array) from js.html.Uint8Array to js.html.Uint8Array {
 
     public inline function new( elements:Int ) {
         this = new js.html.Uint8Array(elements);
     }
 
-    public static inline function fromArray( array:Array<Float> ) : UInt8Array {
+    public static inline function fromArray( array:Array<Float> ) : Uint8Array {
         return new js.html.Uint8Array( cast array );
     }
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt8Array {
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint8Array {
         return new js.html.Uint8Array( buffer, byteOffset, count );
     }
 
-    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : UInt8Array {
+    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : Uint8Array {
         return new js.html.Uint8Array( cast view );
     }
 
@@ -36,29 +36,29 @@ import haxe.io.buffer.TypedArrayType;
 
 @:forward()
 @:arrayAccess
-abstract UInt8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
+abstract Uint8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public static var BYTES_PER_ELEMENT : Int = 1;
 
     public var length (get, never):Int;
 
     public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, UInt8 );
+        this = new ArrayBufferView( elements, Uint8 );
 
-    public static inline function fromArray( array:Array<Float> ) : UInt8Array
-        return new UInt8Array(0).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : Uint8Array
+        return new Uint8Array(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt8Array
-        return new UInt8Array(0).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint8Array
+        return new Uint8Array(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView ) : UInt8Array
-        return new UInt8Array(0).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : Uint8Array
+        return new Uint8Array(0).initTypedArray( view );
 
 
 //Public API
 
         //still busy with this
-    public function subarray( begin:Int, end:Null<Int> = null) : UInt8Array return this.subarray(begin, end);
+    public function subarray( begin:Int, end:Null<Int> = null) : Uint8Array return this.subarray(begin, end);
 
 //Internal
 

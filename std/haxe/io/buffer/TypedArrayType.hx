@@ -6,10 +6,10 @@ abstract TypedArrayType(Int) from Int to Int {
     var Int8            = 1;
     var Int16           = 2;
     var Int32           = 3;
-    var UInt8           = 4;
-    var UInt8Clamped    = 5;
-    var UInt16          = 6;
-    var UInt32          = 7;
+    var Uint8           = 4;
+    var Uint8Clamped    = 5;
+    var Uint16          = 6;
+    var Uint32          = 7;
     var Float32         = 8;
     var Float64         = 9;
 }

@@ -4,21 +4,21 @@ package haxe.io.buffer;
 
 @:forward()
 @:arrayAccess
-abstract UInt8ClampedArray(js.html.Uint8ClampedArray) from js.html.Uint8ClampedArray to js.html.Uint8ClampedArray {
+abstract Uint8ClampedArray(js.html.Uint8ClampedArray) from js.html.Uint8ClampedArray to js.html.Uint8ClampedArray {
 
     public inline function new( elements:Int ) {
         this = new js.html.Uint8ClampedArray(elements);
     }
 
-    public static inline function fromArray( array:Array<Float> ) : UInt8ClampedArray {
+    public static inline function fromArray( array:Array<Float> ) : Uint8ClampedArray {
         return new js.html.Uint8ClampedArray( cast array );
     }
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt8ClampedArray {
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint8ClampedArray {
         return new js.html.Uint8ClampedArray( buffer, byteOffset, count );
     }
 
-    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : UInt8ClampedArray {
+    public static inline function fromTypedArray( view:js.html.ArrayBufferView ) : Uint8ClampedArray {
         return new js.html.Uint8ClampedArray( cast view );
     }
 
@@ -35,29 +35,29 @@ import haxe.io.buffer.TypedArrayType;
 
 @:forward()
 @:arrayAccess
-abstract UInt8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
+abstract Uint8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public static var BYTES_PER_ELEMENT : Int = 1;
 
     public var length (get, never):Int;
 
     public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, UInt8Clamped );
+        this = new ArrayBufferView( elements, Uint8Clamped );
 
-    public static inline function fromArray( array:Array<Float> ) : UInt8ClampedArray
-        return new UInt8ClampedArray(0).initArray(array);
+    public static inline function fromArray( array:Array<Float> ) : Uint8ClampedArray
+        return new Uint8ClampedArray(0).initArray(array);
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : UInt8ClampedArray
-        return new UInt8ClampedArray(0).initBuffer( buffer, byteOffset, count );
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint8ClampedArray
+        return new Uint8ClampedArray(0).initBuffer( buffer, byteOffset, count );
 
-    public static inline function fromTypedArray( view:ArrayBufferView ) : UInt8ClampedArray
-        return new UInt8ClampedArray(0).initTypedArray( view );
+    public static inline function fromTypedArray( view:ArrayBufferView ) : Uint8ClampedArray
+        return new Uint8ClampedArray(0).initTypedArray( view );
 
 
 //Public API
 
         //still busy with this
-    public function subarray( begin:Int, end:Null<Int> = null) : UInt8ClampedArray return this.subarray(begin, end);
+    public function subarray( begin:Int, end:Null<Int> = null) : Uint8ClampedArray return this.subarray(begin, end);
 
 //Internal
 
@@ -75,6 +75,6 @@ abstract UInt8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
         return ArrayBufferIO.setUInt8Clamped(this.buffer, this.byteOffset+idx, val);
 
 
-} //UInt8ClampedArray
+} //Uint8ClampedArray
 
 #end

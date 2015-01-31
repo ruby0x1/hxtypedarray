@@ -158,17 +158,17 @@ class ArrayBufferView {
                 case Int32:
                      Int32Array.fromBuffer(buffer, byte_offset, len);
 
-                case UInt8:
-                     UInt8Array.fromBuffer(buffer, byte_offset, len);
+                case Uint8:
+                     Uint8Array.fromBuffer(buffer, byte_offset, len);
 
-                case UInt8Clamped:
-                     UInt8ClampedArray.fromBuffer(buffer, byte_offset, len);
+                case Uint8Clamped:
+                     Uint8ClampedArray.fromBuffer(buffer, byte_offset, len);
 
-                case UInt16:
-                     UInt16Array.fromBuffer(buffer, byte_offset, len);
+                case Uint16:
+                     Uint16Array.fromBuffer(buffer, byte_offset, len);
 
-                case UInt32:
-                     UInt32Array.fromBuffer(buffer, byte_offset, len);
+                case Uint32:
+                     Uint32Array.fromBuffer(buffer, byte_offset, len);
 
                 case Float32:
                      Float32Array.fromBuffer(buffer, byte_offset, len);
@@ -193,23 +193,23 @@ class ArrayBufferView {
                 case Int8:
                      Int8Array.BYTES_PER_ELEMENT;
 
-                case UInt8:
-                     UInt8Array.BYTES_PER_ELEMENT;
+                case Uint8:
+                     Uint8Array.BYTES_PER_ELEMENT;
 
-                case UInt8Clamped:
-                     UInt8ClampedArray.BYTES_PER_ELEMENT;
+                case Uint8Clamped:
+                     Uint8ClampedArray.BYTES_PER_ELEMENT;
 
                 case Int16:
                      Int16Array.BYTES_PER_ELEMENT;
 
-                case UInt16:
-                     UInt16Array.BYTES_PER_ELEMENT;
+                case Uint16:
+                     Uint16Array.BYTES_PER_ELEMENT;
 
                 case Int32:
                      Int32Array.BYTES_PER_ELEMENT;
 
-                case UInt32:
-                     UInt32Array.BYTES_PER_ELEMENT;
+                case Uint32:
+                     Uint32Array.BYTES_PER_ELEMENT;
 
                 case Float32:
                      Float32Array.BYTES_PER_ELEMENT;
@@ -262,28 +262,28 @@ class ArrayBufferView {
                             pos, Std.int(array[i]));
                         ++i;
                     }
-                case UInt8:
+                case Uint8:
                     while(i<len) {
                         var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt8(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
-                case UInt16:
+                case Uint16:
                     while(i<len) {
                         var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt16(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
-                case UInt32:
+                case Uint32:
                     while(i<len) {
                         var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt32(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
-                case UInt8Clamped:
+                case Uint8Clamped:
                     while(i<len) {
                         var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt8Clamped(buffer,
