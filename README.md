@@ -1,5 +1,8 @@
 # Haxe-TypedArray
 
+Structure:
+All IO operations go through the ArrayBufferIO path only. Other platform specific code spots are isolated to allow #if platform semantics or variations on basic sizes (ArrayBufferView::bytesForType for example) 
+
 ###done:
 
 - cpp/neko fast accesses where known / applicable
