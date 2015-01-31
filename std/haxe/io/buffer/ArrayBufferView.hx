@@ -11,19 +11,17 @@ import haxe.io.buffer.TypedArrayType;
 class ArrayBufferView {
 
     public var type = TypedArrayType.None;
-    public var BYTES_PER_ELEMENT (default,null): Int = 1;
+    public var bytesPerElement (default,null) : Int = 0;
     public var buffer:ArrayBuffer;
     public var byteOffset:Int;
     public var length:Int;
-
 
     @:allow(haxe.io.buffer)
     #if !no_typedarray_inline inline #end
     function new( ?elements:Null<Int> = null, in_type:TypedArrayType) {
 
         type = in_type;
-
-        BYTES_PER_ELEMENT = bytesForType(type);
+        bytesPerElement = bytesForType(type);
 
             //other constructor types use
             //the init calls below
@@ -78,8 +76,9 @@ class ArrayBufferView {
     function initBuffer( in_buffer:ArrayBuffer, ?in_byteOffset:Int = 0, len:Null<Int> = null ) {
 
         if(in_byteOffset < 0) throw Error.OutsideBounds;
-        if(in_byteOffset % BYTES_PER_ELEMENT != 0) throw Error.OutsideBounds;
+        if(in_byteOffset % bytesPerElement != 0) throw Error.OutsideBounds;
 
+        var elementSize = bytesPerElement;
         var bufferByteLength = in_buffer.length;
         var newByteLength = bufferByteLength;
 
@@ -87,11 +86,12 @@ class ArrayBufferView {
 
             newByteLength = bufferByteLength - in_byteOffset;
 
-            if(bufferByteLength % BYTES_PER_ELEMENT != 0) throw Error.OutsideBounds;
+            if(bufferByteLength % bytesPerElement != 0) throw Error.OutsideBounds;
             if(newByteLength < 0) throw Error.OutsideBounds;
 
         } else {
-            newByteLength = len * BYTES_PER_ELEMENT;
+
+            newByteLength = len * bytesPerElement;
 
             var newRange = in_byteOffset + newByteLength;
             if( newRange > bufferByteLength ) throw Error.OutsideBounds;
@@ -100,7 +100,7 @@ class ArrayBufferView {
 
         buffer = in_buffer;
         byteOffset = in_byteOffset;
-        length = Std.int(newByteLength / BYTES_PER_ELEMENT);
+        length = Std.int(newByteLength / bytesPerElement);
 
         return this;
 
@@ -131,7 +131,6 @@ class ArrayBufferView {
     @:generic
     #if !no_typedarray_inline inline #end
     public function setFromArray<T>( ?array:Array<T>, offset:Int = 0 ) {
-        trace(array);
         copyFromArray(cast array, offset);
     }
 
@@ -149,25 +148,36 @@ class ArrayBufferView {
 
         var view : ArrayBufferView =
             switch(type) {
+
                 case Int8:
-                    Int8Array.fromBuffer(buffer, byte_offset, len);
+                     Int8Array.fromBuffer(buffer, byte_offset, len);
+
                 case Int16:
-                    Int16Array.fromBuffer(buffer, byte_offset, len);
+                     Int16Array.fromBuffer(buffer, byte_offset, len);
+
                 case Int32:
-                    Int32Array.fromBuffer(buffer, byte_offset, len);
+                     Int32Array.fromBuffer(buffer, byte_offset, len);
+
                 case UInt8:
-                    UInt8Array.fromBuffer(buffer, byte_offset, len);
+                     UInt8Array.fromBuffer(buffer, byte_offset, len);
+
                 case UInt8Clamped:
-                    UInt8ClampedArray.fromBuffer(buffer, byte_offset, len);
+                     UInt8ClampedArray.fromBuffer(buffer, byte_offset, len);
+
                 case UInt16:
-                    UInt16Array.fromBuffer(buffer, byte_offset, len);
+                     UInt16Array.fromBuffer(buffer, byte_offset, len);
+
                 case UInt32:
-                    UInt32Array.fromBuffer(buffer, byte_offset, len);
+                     UInt32Array.fromBuffer(buffer, byte_offset, len);
+
                 case Float32:
-                    Float32Array.fromBuffer(buffer, byte_offset, len);
+                     Float32Array.fromBuffer(buffer, byte_offset, len);
+
                 case Float64:
-                    Float64Array.fromBuffer(buffer, byte_offset, len);
-                case None: throw Error.Custom("subarray on a blank ArrayBufferView");
+                     Float64Array.fromBuffer(buffer, byte_offset, len);
+
+                case None:
+                    throw Error.Custom("subarray on a blank ArrayBufferView");
             }
 
         return cast view;
@@ -175,20 +185,38 @@ class ArrayBufferView {
     }
 
     #if !no_typedarray_inline inline #end
-        //platform specific values can go here
     function bytesForType( type:TypedArrayType ) : Int {
 
         return
             switch(type) {
-                case Int8:          1;
-                case UInt8:         1;
-                case UInt8Clamped:  1;
-                case Int16:         2;
-                case UInt16:        2;
-                case Int32:         4;
-                case UInt32:        4;
-                case Float32:       4;
-                case Float64:       8;
+
+                case Int8:
+                     Int8Array.BYTES_PER_ELEMENT;
+
+                case UInt8:
+                     UInt8Array.BYTES_PER_ELEMENT;
+
+                case UInt8Clamped:
+                     UInt8ClampedArray.BYTES_PER_ELEMENT;
+
+                case Int16:
+                     Int16Array.BYTES_PER_ELEMENT;
+
+                case UInt16:
+                     UInt16Array.BYTES_PER_ELEMENT;
+
+                case Int32:
+                     Int32Array.BYTES_PER_ELEMENT;
+
+                case UInt32:
+                     UInt32Array.BYTES_PER_ELEMENT;
+
+                case Float32:
+                     Float32Array.BYTES_PER_ELEMENT;
+
+                case Float64:
+                     Float64Array.BYTES_PER_ELEMENT;
+
                 case _: 1;
             }
 
@@ -197,7 +225,7 @@ class ArrayBufferView {
     #if !no_typedarray_inline inline #end
     function toByteLength( elemCount:Int ) : Int {
 
-        return elemCount * BYTES_PER_ELEMENT;
+        return elemCount * bytesPerElement;
 
     }
 
@@ -215,70 +243,72 @@ class ArrayBufferView {
             switch(type) {
                 case Int8:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setInt8(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
                 case Int16:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setInt16(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
                 case Int32:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setInt32(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
                 case UInt8:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt8(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
                 case UInt16:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt16(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
                 case UInt32:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt32(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
                 case UInt8Clamped:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setUInt8Clamped(buffer,
                             pos, Std.int(array[i]));
                         ++i;
                     }
                 case Float32:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setFloat32(buffer,
                             pos, array[i]);
                         ++i;
                     }
                 case Float64:
                     while(i<len) {
-                        var pos = (offset+i)*BYTES_PER_ELEMENT;
+                        var pos = (offset+i)*bytesPerElement;
                         ArrayBufferIO.setFloat64(buffer,
                             pos, array[i]);
                         ++i;
                     }
 
-                case None: throw Error.Custom("copyFromArray on a blank ArrayBuffer");
-            } //switch
+                case None:
+                    throw Error.Custom("copyFromArray on a blank ArrayBuffer");
+
+            }
 
     }
 

@@ -37,6 +37,8 @@ import haxe.io.buffer.TypedArrayType;
 @:arrayAccess
 abstract UInt8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
+    public static var BYTES_PER_ELEMENT : Int = 1;
+
     public var length (get, never):Int;
 
     public inline function new( elements:Int )

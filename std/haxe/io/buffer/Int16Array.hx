@@ -38,6 +38,8 @@ import haxe.io.buffer.TypedArrayType;
 @:arrayAccess
 abstract Int16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
+    public static var BYTES_PER_ELEMENT : Int = 2;
+
     public var length (get, never):Int;
 
     public inline function new( elements:Int )
@@ -65,12 +67,12 @@ abstract Int16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     @:noCompletion
     @:arrayAccess
     public inline function __get(idx:Int)
-        return ArrayBufferIO.getInt16(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT));
+        return ArrayBufferIO.getInt16(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT));
 
     @:noCompletion
     @:arrayAccess
     public inline function __set(idx:Int, val:Int)
-        return ArrayBufferIO.setInt16(this.buffer, this.byteOffset+(idx*this.BYTES_PER_ELEMENT), val);
+        return ArrayBufferIO.setInt16(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT), val);
 
 }
 
