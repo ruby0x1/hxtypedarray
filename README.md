@@ -1,5 +1,32 @@
 # Haxe-TypedArray
 
+
+###done:
+
+- cpp/neko fast accesses where known / applicable
+- cpp/neko all unit tests passing, compiles against js/py etc but will test after the feature complete
+
+###todo:
+
+- conversion notes above in Differences
+- All data is in bigEndian by default, by spec (see next point)
+- DataView has endianness flags that need to be handled in ArrayBufferIO.
+
+Wondering:
+
+- Error class has OutsideBounds for mapping to RangeError
+  - Bad idea to add reason string in #debug? This would be super useful, has saved me hours before
+  - Error.custom is used a few places, to account for non bounds errors
+
+###todo:external
+
+- Finish Unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)
+- Basic performance tests for regression, all types
+- port tests to unitstd type and test in haxe folder
+- Document user facing API functions and class types according to spec
+- peer review
+- PR
+
 #### Structure:
 - All IO operations go through the ArrayBufferIO path only, for platform specific+endian isolated code to be easy to maintain, and not scattered across the code. 
 
@@ -37,29 +64,3 @@ Aside from todo below:
   - new(len) || new(buffer, offset, len) || new(array) || new(typedarray)
   - becomes new(len) consistently for all types and super types
   - Float32Array.fromArray/fromTypedArray/fromBuffer
-
-###done:
-
-- cpp/neko fast accesses where known / applicable
-- cpp/neko all unit tests passing, compiles against js/py etc but will test after the feature complete
-
-###todo:
-
-- conversion notes above in Differences
-- All data is in bigEndian by default, by spec (see next point)
-- DataView has endianness flags that need to be handled in ArrayBufferIO.
-
-Wondering:
-
-- Error class has OutsideBounds for mapping to RangeError
-  - Bad idea to add reason string in #debug? This would be super useful, has saved me hours before
-  - Error.custom is used a few places, to account for non bounds errors
-
-###todo:external
-
-- Finish Unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)
-- Basic performance tests for regression, all types
-- port tests to unitstd type and test in haxe folder
-- Document user facing API functions and class types according to spec
-- peer review
-- PR
