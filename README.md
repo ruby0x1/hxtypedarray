@@ -1,7 +1,42 @@
 # Haxe-TypedArray
 
-Structure:
-All IO operations go through the ArrayBufferIO path only. Other platform specific code spots are isolated to allow #if platform semantics or variations on basic sizes (ArrayBufferView::bytesForType for example) 
+#### Structure:
+- All IO operations go through the ArrayBufferIO path only, for platform specific+endian isolated code to be easy to maintain, and not scattered across the code. 
+
+#### Included Types:
+
+- [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) 
+  - data store, haxe.io.Bytes abstract
+- [ArrayBufferView](https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView) 
+  - view into buffer, lightweight class, requires members
+- ArrayBufferIO
+  - encapsulated platform intrinsics+endianness, 
+  - can use `using` on ArrayBuffers
+  - called static direct in this code
+- [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) 
+  - R/W ops on ArrayBuffer, handles endianness etc
+- [Int8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array)
+- [Int16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array)
+- [Int32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array)
+- [UInt8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/UInt8Array)
+- [UInt8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/UInt8ClampedArray)
+- [UInt16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/UInt16Array)
+- [UInt32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/UInt32Array)
+- [Float32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)
+- [Float64Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array)
+
+###Differences with spec
+
+Aside from todo below:
+
+- Spec allows new Float32Array(Int8ArrayInstance) with conversion
+  - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17
+  - spec for conversion, [get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvaluefrombuffer)/[set](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-setvalueinbuffer) 
+- ArrayBufferView includes bytesPerElement as a local instance variable for code simplification and convenience of not switch(type) where it is used
+- variadic constructors broken down into statics, i.e
+  - new(len) || new(buffer, offset, len) || new(array) || new(typedarray)
+  - becomes new(len) consistently for all types and super types
+  - Float32Array.fromArray/fromTypedArray/fromBuffer
 
 ###done:
 
@@ -10,8 +45,8 @@ All IO operations go through the ArrayBufferIO path only. Other platform specifi
 
 ###todo:
 
-- All data is in bigEndian assumption, by spec (see below)
-- DataView has endianness flags, ArrayBufferIO will handle. this isolates platform specific intrinsics etc, as well as handle endianness in one location, not spread out into the code.
+- All data is in bigEndian by default, by spec (see next point)
+- DataView has endianness flags that need to be handled in ArrayBufferIO.
 
 ###todo:external
 
