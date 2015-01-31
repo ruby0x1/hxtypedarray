@@ -9,9 +9,21 @@
 
 import mohxa.Mohxa;
 
+import haxe.io.buffer.DataView;
+
 class _TestTypedArrays {
 
     static function main() {
+
+        // Mohxa.use_colors = false;
+
+        var t = new haxe.io.buffer.Float32Array(4);
+            t.setFromArray([1,2,3,4]);
+
+        var d = new DataView(t.buffer);
+            d.setFloat32(0, 6);
+
+        trace(d.getFloat32(0));
 
         //int
             run(new TestInt8Array());
