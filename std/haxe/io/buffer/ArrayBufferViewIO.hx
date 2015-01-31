@@ -58,7 +58,8 @@ class ArrayBufferViewIO {
         #if cpp
             return untyped __global__.__hxcpp_memory_get_byte(view.buffer.getData(), view.byteOffset + pos);
         #elseif neko
-            return view.buffer.get( view.byteOffset + pos );
+            var val:Int = view.buffer.get(view.byteOffset + pos);
+            return ((val & 0x80) != 0) ?(val - 0x100) : val;
         #end
 
     }
@@ -70,7 +71,7 @@ class ArrayBufferViewIO {
         #if cpp
             untyped __global__.__hxcpp_memory_set_byte(view.buffer.getData(), view.byteOffset + pos, value);
         #elseif neko
-            view.buffer.set( view.byteOffset + pos, value );
+            untyped __dollar__sset(view.buffer.b, view.byteOffset + pos, value & 0xff);
         #end
 
         return value;
@@ -109,26 +110,36 @@ class ArrayBufferViewIO {
 
     }
 
-    public static inline function getInt16( view:ArrayBufferView, idx:Int ) : Int {
+    public static  function getInt16( view:ArrayBufferView, idx:Int ) : Int {
 
         var pos = idx << 1;
 
         #if cpp
             untyped return __global__.__hxcpp_memory_get_i16(view.buffer.getData(), view.byteOffset + pos);
         #elseif neko
-            return view.buffer.getI32( view.byteOffset + pos );
+            var b = view.buffer;
+            var offsetpos = view.byteOffset + pos;
+            var ch1 = b.get(offsetpos    );
+            var ch2 = b.get(offsetpos + 1);
+            var val = ((ch1 << 8) | ch2);
+            return
+                ((val & 0x8000) != 0) ?
+                    ( val - 0x10000 ) : ( val );
         #end
 
     }
 
-    public static inline function setInt16( view:ArrayBufferView, idx:Int, value:Int ) {
+    public static  function setInt16( view:ArrayBufferView, idx:Int, value:Int ) {
 
         var pos = idx << 1;
+        var offsetpos = view.byteOffset + pos;
 
         #if cpp
-            untyped __global__.__hxcpp_memory_set_i16(view.buffer.getData(), view.byteOffset + pos, value);
+            untyped __global__.__hxcpp_memory_set_i16(view.buffer.getData(), offsetpos, value);
         #elseif neko
-            view.buffer.setI32( view.byteOffset + pos, value );
+            untyped var b = view.buffer.b;
+            untyped __dollar__sset(b, offsetpos  , (value >> 8) & 0xff);
+            untyped __dollar__sset(b, offsetpos+1, (value     ) & 0xff);
         #end
 
 
@@ -143,7 +154,11 @@ class ArrayBufferViewIO {
         #if cpp
             untyped return __global__.__hxcpp_memory_get_ui16(view.buffer.getData(), view.byteOffset + pos) & 0xffff;
         #elseif neko
-            return view.buffer.getI32( view.byteOffset + pos );
+            var b = view.buffer;
+            var offsetpos = view.byteOffset + pos;
+            var ch1 = b.get(offsetpos    );
+            var ch2 = b.get(offsetpos + 1);
+            return (ch1 << 8) | ch2;
         #end
 
     }
@@ -155,7 +170,7 @@ class ArrayBufferViewIO {
         #if cpp
             untyped __global__.__hxcpp_memory_set_ui16(view.buffer.getData(), view.byteOffset + pos, value);
         #elseif neko
-            view.buffer.setI32( view.byteOffset + pos, value );
+            setInt16(view, idx, value);
         #end
 
         return value;
