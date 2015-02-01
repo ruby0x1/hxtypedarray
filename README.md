@@ -32,10 +32,9 @@ Targets not compiling:
 
 ###todo:
 
-- Test and ensure haxe 3.1.3 compatibility
-- Lower footprint where possible (Bytes)
-- Endianness handling is not complete yet
-  - structure is set up for it, but ArrayBufferIO should implement all cases
+- Lower footprint where possible (BytesData wrapping atm)
+- Endianness handling is not fully yet
+  - structure is set up for it, some are done, but ArrayBufferIO should implement all cases
   - unit tests for endianness correctness and usage
   - defaults to little endian or underlying platform/haxe code
 - add unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)

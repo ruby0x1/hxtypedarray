@@ -10,12 +10,12 @@
 -neko tests.n
 -lib mohxa
 
-#--next
-#
-#-main _TestTypedArrays
-#-cp ../
-#-js tests.js
-#-lib mohxa
+--next
+
+-main _TestTypedArrays
+-cp ../
+-js tests.js
+-lib mohxa
 #
 #--next
 #
