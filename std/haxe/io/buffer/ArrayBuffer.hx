@@ -1,12 +1,6 @@
 package haxe.io.buffer;
 
 
-#if js
-
-typedef ArrayBuffer = js.html.ArrayBuffer;
-
-#else
-
 import haxe.io.Bytes;
 
 @:forward()
@@ -15,5 +9,3 @@ abstract ArrayBuffer(Bytes) from Bytes to Bytes {
         this = Bytes.alloc( byteLength );
     }
 }
-
-#end

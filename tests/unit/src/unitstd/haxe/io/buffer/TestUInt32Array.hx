@@ -40,7 +40,7 @@ class TestUInt32Array extends mohxa.Mohxa {
 
             it('should be correctly constructed from array of Int, wrapping negative value', function(){
                 equal( 17, x[0], 'element [0] == 17' );
-                equal( 0xffffffd3, x[1], 'element [1] == 0xffffffd3' );
+                equal( 4294967251, x[1], 'element [1] == 4294967251' );
                 equal( 2, x.length, 'length == 2' );
             });
 
@@ -57,18 +57,18 @@ class TestUInt32Array extends mohxa.Mohxa {
             it('should share a buffer from other array buffer, wrapped value', function(){
 
                 equal(17, x[0], 'x element [0] == 17');
-                equal(0xffffffd3, x[1], 'x element [1] == 0xffffffd3');
+                equal(4294967251, x[1], 'x element [1] == 4294967251');
                 equal(2, x.length, 'x length == 2');
 
                 equal(17, y[0], 'y element [0] == 17');
-                equal(0xffffffd3, y[1], 'y element [1] == 0xffffffd3');
+                equal(4294967251, y[1], 'y element [1] == 4294967251');
                 equal(2, y.length, 'y length == 2');
 
                 log('setting x element [0] to -2');
 
                 x[0] = -2;
 
-                equal(0xfffffffe, y[0], 'y element [0] == 0xfffffffe');
+                equal(4294967294, y[0], 'y element [0] == 4294967294');
 
             });
 
@@ -85,11 +85,11 @@ class TestUInt32Array extends mohxa.Mohxa {
             it('should share a buffer from other array', function(){
 
                 equal(17, x[0], 'x element [0] == 17');
-                equal(0xffffffd3, x[1], 'x element [1] == 0xffffffd3');
+                equal(4294967251, x[1], 'x element [1] == 4294967251');
                 equal(2, x.length, 'x length == 2');
 
                 equal(17, y[0], 'y element [0] == 17');
-                equal(0xffffffd3, y[1], 'y element [1] == 0xffffffd3');
+                equal(4294967251, y[1], 'y element [1] == 4294967251');
                 equal(2, y.length, 'y length == 2');
 
                 log('setting x element [0] to -2');
@@ -182,7 +182,7 @@ class TestUInt32Array extends mohxa.Mohxa {
 
                 y[0] = -1;
 
-                equal(0xffffffff, x[2], 'x[2] == 0xffffffff');
+                equal(4294967295, x[2], 'x[2] == 4294967295');
 
             });
 
