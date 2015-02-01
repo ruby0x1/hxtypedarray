@@ -1,8 +1,11 @@
-## haxe typedarrays
+## hxtypedarrays
 
 ----
 
 This is an near-full es6 compatible implementation of the [TypedArrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) specification for binary data views. Differences listed below.
+
+**Take note** [A proposal for typedarray-like buffers in haxe std lib is in progress](https://github.com/HaxeFoundation/haxe/pull/3827), which is not to be confused.
+
 
 ### aims:
 - low level (use target specific optimization)
@@ -88,3 +91,4 @@ Thanks to the following contributors for their input over time:
 - Thomas Hourdel (Original Unit test code from spec)
 - Michael Bickel (Code contributions and sparring)
 - Joshua Granick (Work on lime versions)
+- Nicolas Cannasse (Advice and feedback)
