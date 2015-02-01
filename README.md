@@ -1,12 +1,19 @@
-## haxe typed arrays
+## haxe typedarrays
 
 ----
 
-This is an near full es6 compatible implementation of the [TypedArrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) specification for binary data views.
+This is an near-full es6 compatible implementation of the [TypedArrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) specification for binary data views. Differences listed below.
+
+### aims:
+- low level (use target specific optimization)
+- lightweight (use abstracts where possible etc)
+- spec compatible
+- haxe 3.1.3 compatible
+- supports all targets
 
 ###targets:
 
-Compatible targets, passing all tests:
+Compatible targets, passing all tests (on 3.2 current):
 
 - js
 - neko
@@ -25,13 +32,15 @@ Targets not compiling:
 
 ###todo:
 
+- Test and ensure haxe 3.1.3 compatibility
+- Lower footprint where possible (Bytes)
 - Endianness handling is not complete yet
   - structure is set up for it, but ArrayBufferIO should implement all cases
-  - unit tests for endianness correctness and usage 
+  - unit tests for endianness correctness and usage
   - defaults to little endian or underlying platform/haxe code
 - add unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)
-- use haxe.unit for agnostic tests instead of moxha 
-- throughput performance tests for regression, all types
+- use haxe.unit for agnostic tests instead of moxha
+- throughput performance tests for regression
 - Document user facing API according to differences with spec
 
 #### Structure:
@@ -41,15 +50,15 @@ Targets not compiling:
 
 #### Included Types:
 
-- [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) 
+- [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)
   - data store, haxe.io.Bytes abstract
-- [ArrayBufferView](https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView) 
+- [ArrayBufferView](https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView)
   - lightweight class, handles all underlying types
 - ArrayBufferIO
   - encapsulated platform read/write
   - handles endianness and platform specifics
   - can use `using` on ArrayBuffers
-- [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) 
+- [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView)
 - [Int8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array)
 - [Int16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array)
 - [Int32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array)
@@ -63,11 +72,20 @@ Targets not compiling:
 ###Differences with spec
 
 - (will implement in future) Spec allows Type1.set(Type2) and new Type1(Type2), with conversion between bytes
-  - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17 
+  - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17
   - should use FPHelper in future
-  - spec for conversion, [get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvaluefrombuffer)/[set](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-setvalueinbuffer) 
+  - spec for conversion, [get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvaluefrombuffer)/[set](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-setvalueinbuffer)
 - ArrayBufferView includes `bytesPerElement` as a local instance variable for code simplification and convenience
 - variadic constructors broken down into statics, i.e
   - new(len) || new(buffer, offset, len) || new(array) || new(typedarray)
   - becomes new(len) consistently for all types and super types
   - Float32Array.fromArray/fromTypedArray/fromBuffer
+
+### Contributors
+
+Thanks to the following contributors for their input over time:
+
+- Hugh Sanderson (Original ByteArray, nme code)
+- Thomas Hourdel (Original Unit test code from spec)
+- Michael Bickel (Code contributions and sparring)
+- Joshua Granick (Work on lime versions)

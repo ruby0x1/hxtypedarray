@@ -1,0 +1,71 @@
+-main _TestTypedArrays
+-cpp cpp
+-cp ../
+-lib mohxa
+
+--next
+
+-main _TestTypedArrays
+-cp ../
+-neko tests.n
+-lib mohxa
+
+#--next
+#
+#-main _TestTypedArrays
+#-cp ../
+#-js tests.js
+#-lib mohxa
+#
+#--next
+#
+#-main _TestTypedArrays
+#-cp ../
+#-python tests.py
+#-lib mohxa
+#
+#--next
+#
+#-main _TestTypedArrays
+#-cp ../
+#-php php/
+#-lib mohxa
+#
+#--next
+#
+#-main _TestTypedArrays
+#-cp ../
+#-java java/
+#-lib mohxa
+#--next
+#
+#-main _TestTypedArrays
+#
+#-cp ../
+#-swf tests.swf
+#-lib mohxa
+#
+#--next
+
+#-main _TestTypedArrays
+#-cp ../
+#-cs csharp.cs
+#-lib mohxa
+
+#--next
+#
+#
+#-cmd echo 'TARGET::CPP'
+-cmd ./cpp/_TestTypedArrays
+#-cmd echo 'TARGET::NEKO'
+-cmd neko tests.n
+#-cmd echo 'TARGET::PHP'
+#-cmd php php/index.php
+#-cmd echo 'TARGET::JAVA'
+#-cmd java -jar java/_TestTypedArrays.jar
+#-cmd echo 'TARGET::SWF'
+#-cmd open tests.swf
+#-cmd echo 'TARGET::PY'
+#-cmd python3 tests.py
+
+
