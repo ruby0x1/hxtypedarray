@@ -1,47 +1,55 @@
-# Haxe-TypedArray
+## haxe typed arrays
 
+----
 
-###done:
+This is an near full es6 compatible implementation of the [TypedArrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) specification for binary data views.
 
-- cpp/neko fast accesses where known / applicable
-- cpp/neko all unit tests passing, compiles against js/py etc but will test after the feature complete
+###targets:
+
+Compatible targets, passing all tests:
+
+- js
+- neko
+- cpp
+
+Targets compiling, but not passing:
+Failing tests are related to negative int values, will be addressed.
+
+- php (13/72 fail)
+- python (4/72 fail)
+- java (5/72 fail)
+- swf (4/72 fail)
+
+Targets not compiling:
+- csharp (@.value errors, will investigate)
 
 ###todo:
 
-- conversion notes above in Differences
-- All data is in unspecified endian atm by default, by spec but will confirm with #3 and
-- DataView has endianness flags that need to be handled in ArrayBufferIO.
-
-Wondering:
-
-- Error class has OutsideBounds for mapping to RangeError
-  - Bad idea to add reason string in #debug? This would be super useful, has saved me hours before
-  - Error.custom is used a few places, to account for non bounds errors
-
-###todo:external
-
-- Finish Unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)
-- Basic performance tests for regression, all types
-- port tests to unitstd type and test in haxe folder
-- Document user facing API functions and class types according to spec
-- peer review
-- PR
+- Endianness handling is not complete yet
+  - structure is set up for it, but ArrayBufferIO should implement all cases
+  - unit tests for endianness correctness and usage 
+  - defaults to little endian or underlying platform/haxe code
+- add unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)
+- use haxe.unit for agnostic tests instead of moxha 
+- throughput performance tests for regression, all types
+- Document user facing API according to differences with spec
 
 #### Structure:
-- All IO operations go through the ArrayBufferIO path only, for platform specific+endian isolated code to be easy to maintain, and not scattered across the code. 
+- All IO operations go through the ArrayBufferIO path only, this allows for platform specific+endian changing  code to be easy to maintain, and not scattered across the rest.
+- on JS targets where types are native, those are used instead
+- where possible (c++/neko) fast/direct memory access is used
 
 #### Included Types:
 
 - [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) 
   - data store, haxe.io.Bytes abstract
 - [ArrayBufferView](https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView) 
-  - view into buffer, lightweight class, requires members
+  - lightweight class, handles all underlying types
 - ArrayBufferIO
-  - encapsulated platform intrinsics+endianness, 
+  - encapsulated platform read/write
+  - handles endianness and platform specifics
   - can use `using` on ArrayBuffers
-  - called static direct in this code
 - [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) 
-  - R/W ops on ArrayBuffer, handles endianness etc
 - [Int8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array)
 - [Int16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array)
 - [Int32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array)
@@ -54,12 +62,11 @@ Wondering:
 
 ###Differences with spec
 
-Aside from todo below:
-
-- (will implement) Spec allows Float32ArrayInst.set(Int8ArrayInstance) and similar with conversion
-  - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17 , [example implementation in js polyfill](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js#L734)
+- (will implement in future) Spec allows Type1.set(Type2) and new Type1(Type2), with conversion between bytes
+  - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17 
+  - should use FPHelper in future
   - spec for conversion, [get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvaluefrombuffer)/[set](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-setvalueinbuffer) 
-- ArrayBufferView includes bytesPerElement as a local instance variable for code simplification and convenience of not switch(type) where it is used
+- ArrayBufferView includes `bytesPerElement` as a local instance variable for code simplification and convenience
 - variadic constructors broken down into statics, i.e
   - new(len) || new(buffer, offset, len) || new(array) || new(typedarray)
   - becomes new(len) consistently for all types and super types
