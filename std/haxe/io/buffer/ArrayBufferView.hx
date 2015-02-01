@@ -59,7 +59,7 @@ class ArrayBufferView {
             if(view.type == type) {
                 cloneBuffer(srcData, srcByteOffset);
             } else {
-                //see :note:1: below convertTypedArray
+                //see :note:1: below use FPHelper!
                 throw Error.Custom("unimplemented");
             }
         #end
@@ -298,7 +298,7 @@ class ArrayBufferView {
 
 //Non-spec
 
-    #if !no_typedarray_inline inline #end
+    #if !no_typedarray_inline #end
     function copyFromArray(array:Array<Float>, ?offset : Int = 0 ) {
 
         //Ideally, native semantics could be used, like cpp.NativeArray.blit

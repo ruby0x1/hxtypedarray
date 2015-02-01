@@ -21,6 +21,8 @@ class ArrayBufferIO {
             untyped __global__.__hxcpp_memory_set_byte(buffer.getData(), byteOffset, value);
         #elseif neko
             untyped __dollar__sset(buffer.b, byteOffset, value & 0xff);
+        #else
+            buffer.set(byteOffset, value);
         #end
 
         return value;
@@ -92,7 +94,13 @@ class ArrayBufferIO {
                 untyped __dollar__sset(b, byteOffset+1, (value     ) & 0xff);
             }
         #else
-            trace ("unimplemented");
+            if(littleEndian) {
+                buffer.set(byteOffset  , (value     ) & 0xff);
+                buffer.set(byteOffset+1, (value >> 8) & 0xff);
+            } else {
+                buffer.set(byteOffset  , (value >> 8) & 0xff);
+                buffer.set(byteOffset+1, (value     ) & 0xff);
+            }
         #end
 
 
@@ -137,11 +145,8 @@ class ArrayBufferIO {
 
         #if cpp
             untyped return __global__.__hxcpp_memory_get_i32(buffer.getData(), byteOffset);
-        #elseif neko
-            return buffer.getI32( byteOffset );
         #else
-            trace ("unimplemented");
-            return 0;
+            return buffer.getI32(byteOffset);
         #end
 
     }
@@ -151,10 +156,8 @@ class ArrayBufferIO {
 
         #if cpp
             untyped __global__.__hxcpp_memory_set_i32(buffer.getData(), byteOffset, value);
-        #elseif neko
-            buffer.setI32( byteOffset, value );
         #else
-            trace ("unimplemented");
+            buffer.setI32(byteOffset,value);
         #end
 
         return value;
@@ -166,11 +169,8 @@ class ArrayBufferIO {
 
         #if cpp
             untyped return __global__.__hxcpp_memory_get_ui32(buffer.getData(), byteOffset);
-        #elseif neko
-            return buffer.getI32( byteOffset );
         #else
-            trace ("unimplemented");
-            return 0;
+            return buffer.getI32( byteOffset );
         #end
 
     }
@@ -180,10 +180,8 @@ class ArrayBufferIO {
 
         #if cpp
             untyped __global__.__hxcpp_memory_set_ui32(buffer.getData(), byteOffset, value);
-        #elseif neko
-            buffer.setI32( byteOffset, value );
         #else
-            trace ("unimplemented");
+            buffer.setI32( byteOffset, value );
         #end
 
         return value;
