@@ -23,11 +23,29 @@ abstract Uint16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     public static inline function fromTypedArray( view:ArrayBufferView ) : Uint16Array
         return new Uint16Array(0).initTypedArray( view );
 
-
 //Public API
 
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Uint16Array return this.subarray(begin, end);
+
+//Compatibility
+
+#if js
+    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
+        switch(untyped a.constructor) {
+            case js.html.Uint16Array:
+                return new ArrayBufferView(0, Uint16).initTypedArray(untyped a);
+            case _: return throw "wrong type";
+        }
+    }
+    @:from static function fromUint16Array(a:js.html.Uint16Array) : Uint16Array
+        return new Uint16Array(0).initTypedArray(untyped a);
+
+    @:to function toArrayBufferView(): js.html.ArrayBufferView
+        return untyped this.buffer.b;
+    @:to function toUint16Array(): js.html.Uint16Array
+        return untyped this.buffer.b;
+#end
 
 //Internal
 

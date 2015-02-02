@@ -23,11 +23,31 @@ abstract Uint8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
     public static inline function fromTypedArray( view:ArrayBufferView ) : Uint8ClampedArray
         return new Uint8ClampedArray(0).initTypedArray( view );
 
-
 //Public API
 
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Uint8ClampedArray return this.subarray(begin, end);
+
+//Compatibility
+
+#if js
+    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
+        switch(untyped a.constructor) {
+            case js.html.Uint8Array, js.html.Uint8ClampedArray:
+                return new ArrayBufferView(0, Uint8Clamped).initTypedArray(untyped a);
+            case _: return throw "unimplemented";
+        }
+    }
+    @:from static function fromUint8Array(a:Uint8Array)
+        return new Uint8Array(0).initTypedArray(untyped a);
+    @:from static function fromUint8ClampedArray(a:Uint8ClampedArray) : Uint8ClampedArray
+        return new Uint8ClampedArray(0).initTypedArray(untyped a);
+
+    @:to function toArrayBufferView(): js.html.ArrayBufferView
+        return untyped this.buffer.b;
+    @:to function toUint8ClampedArray(): js.html.Uint8ClampedArray
+        return untyped this.buffer.b;
+#end
 
 //Internal
 

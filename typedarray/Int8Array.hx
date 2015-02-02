@@ -11,26 +11,41 @@ abstract Int8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public var length (get, never):Int;
 
-    public inline function new( elements:Int ) {
+    public inline function new( elements:Int )
         this = new ArrayBufferView( elements, Int8 );
-    }
 
-    public static inline function fromArray( array:Array<Float> ) : Int8Array {
+    public static inline function fromArray( array:Array<Float> ) : Int8Array
         return new Int8Array(0).initArray( array );
-    }
 
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Int8Array {
+    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Int8Array
         return new Int8Array(0).initBuffer( buffer, byteOffset, count );
-    }
 
-    public static inline function fromTypedArray( view:ArrayBufferView ) : Int8Array {
+    public static inline function fromTypedArray( view:ArrayBufferView ) : Int8Array
         return new Int8Array(0).initTypedArray( view );
-    }
 
 //Public API
 
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Int8Array return this.subarray(begin, end);
+
+//Compatibility
+
+#if js
+    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
+        switch(untyped a.constructor) {
+            case js.html.Int8Array:
+                return new Int8Array(0).initTypedArray(untyped a);
+            case _: return throw "wrong type";
+        }
+    }
+    @:from static function fromInt8Array(a:js.html.Int8Array) : Int8Array
+        return new Int8Array(0).initTypedArray(untyped a);
+
+    @:to function toArrayBufferView(): js.html.ArrayBufferView
+        return untyped this.buffer.b;
+    @:to function toInt8Array(): js.html.Int8Array
+        return untyped this.buffer.b;
+#end
 
 //Internal
 

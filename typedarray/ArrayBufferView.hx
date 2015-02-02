@@ -52,7 +52,11 @@ class ArrayBufferView {
         var elementSize = bytesPerElement;
 
         #if js
-            buffer = initJSArray(untyped view.buffer.b);
+            if(Std.is(view, ArrayBufferView)) {
+                buffer = initJSArray(untyped view.buffer.b);
+            } else {
+                buffer = initJSArray(untyped view);
+            }
         #else
                 //same species, so just blit the data
                 //in other words, it shares the same bytes per element etc

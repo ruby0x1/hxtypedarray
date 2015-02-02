@@ -28,6 +28,25 @@ abstract Float64Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Float64Array return this.subarray(begin, end);
 
+//Compatibility
+
+#if js
+    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
+        switch(untyped a.constructor) {
+            case js.html.Float64Array:
+                return new Float64Array(0).initTypedArray(untyped a);
+            case _: return throw "wrong type";
+        }
+    }
+    @:from static function fromFloat64Array(a:js.html.Float64Array)
+        return new Float64Array(0).initTypedArray(untyped a);
+
+    @:to function toArrayBufferView(): js.html.ArrayBufferView
+        return untyped this.buffer.b;
+    @:to function toFloat64Array(): js.html.Float64Array
+        return untyped this.buffer.b;
+#end
+
 //Internal
 
     inline function get_length() return this.length;

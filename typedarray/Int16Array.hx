@@ -28,6 +28,25 @@ abstract Int16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Int16Array return this.subarray(begin, end);
 
+//Compatibility
+
+#if js
+    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) : Int16Array {
+        switch(untyped a.constructor) {
+            case js.html.Int16Array:
+                return new Int16Array(0).initTypedArray(untyped a);
+            case _: return throw "wrong type";
+        }
+    }
+    @:from static function fromInt16Array(a:js.html.Int16Array) : Int16Array
+        return new Int16Array(0).initTypedArray(untyped a);
+
+    @:to function toArrayBufferView(): js.html.ArrayBufferView
+        return untyped this.buffer.b;
+    @:to function toInt16Array(): js.html.Int16Array
+        return untyped this.buffer.b;
+#end
+
 //Internal
 
     inline function get_length() return this.length;

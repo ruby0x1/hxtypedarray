@@ -28,6 +28,25 @@ abstract Int32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Int32Array return this.subarray(begin, end);
 
+//Compatibility
+
+#if js
+    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
+        switch(untyped a.constructor) {
+            case js.html.Int32Array:
+                return new Int32Array(0).initTypedArray(untyped a);
+            case _: return throw "wrong type";
+        }
+    }
+    @:from static function fromInt32Array(a:js.html.Int32Array) : Int32Array
+        return new Int32Array(0).initTypedArray(untyped a);
+
+    @:to function toArrayBufferView(): js.html.ArrayBufferView
+        return untyped this.buffer.b;
+    @:to function toInt32Array(): js.html.Int32Array
+        return untyped this.buffer.b;
+#end
+
 //Internal
 
     inline function get_length() return this.length;
