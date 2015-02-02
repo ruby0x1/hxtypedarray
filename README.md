@@ -92,3 +92,8 @@ Thanks to the following contributors for their input over time:
 - Michael Bickel (Code contributions and sparring)
 - Joshua Granick (Work on lime versions)
 - Nicolas Cannasse (Advice and feedback)
+
+### License
+
+MIT Licensed
+See LICENSE.md
