@@ -2,7 +2,37 @@ package typedarray;
 
 #if js
 
-    typedef Float64Array = js.html.Float64Array;
+    @:forward
+    @:arrayAccess
+    abstract Float64Array(js.html.Float64Array)
+        from js.html.Float64Array
+        to js.html.Float64Array {
+
+        @:generic
+        public inline function new<T>(
+            ?elements:Int,
+            ?array:Array<T>,
+            ?view:ArrayBufferView,
+            ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
+        ) {
+            if(elements != null) {
+                this = new js.html.Float64Array( elements );
+            } else if(array != null) {
+                this = new js.html.Float64Array( untyped array );
+            } else if(view != null) {
+                this = new js.html.Float64Array( untyped view );
+            } else if(buffer != null) {
+                len = (len == null) ? untyped __js__('undefined') : len;
+                this = new js.html.Float64Array( buffer, byteoffset, len );
+            } else {
+                this = null;
+            }
+        }
+
+        @:arrayAccess inline function __set(idx:Int, val:Float) return this[idx] = val;
+        @:arrayAccess inline function __get(idx:Int) : Float return this[idx];
+
+    }
 
 #else
 
@@ -17,9 +47,10 @@ abstract Float64Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public var length (get, never):Int;
 
-        public inline function new(
+        @:generic
+        public inline function new<T>(
             ?elements:Int,
-            ?array:Array<Float>,
+            ?array:Array<T>,
             ?view:ArrayBufferView,
             ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
         ) {

@@ -8,9 +8,10 @@ package typedarray;
         from js.html.Int16Array
         to js.html.Int16Array {
 
-        public inline function new(
+        @:generic
+        public inline function new<T>(
             ?elements:Int,
-            ?array:Array<Float>,
+            ?array:Array<T>,
             ?view:ArrayBufferView,
             ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
         ) {
@@ -28,8 +29,8 @@ package typedarray;
             }
         }
 
-        @:arrayAccess inline function __set(idx:Int, val:UInt) return this[idx] = val;
-        @:arrayAccess inline function __get(idx:Int) : UInt return this[idx];
+        @:arrayAccess inline function __set(idx:Int, val:Int) return this[idx] = val;
+        @:arrayAccess inline function __get(idx:Int) : Int return this[idx];
 
     }
 
@@ -46,9 +47,10 @@ abstract Int16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public var length (get, never):Int;
 
-        public inline function new(
+        @:generic
+        public inline function new<T>(
             ?elements:Int,
-            ?array:Array<Float>,
+            ?array:Array<T>,
             ?view:ArrayBufferView,
             ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
         ) {

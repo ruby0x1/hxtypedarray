@@ -8,9 +8,10 @@ package typedarray;
         from js.html.Uint8ClampedArray
         to js.html.Uint8ClampedArray {
 
-        public inline function new(
+        @:generic
+         public inline function new<T>(
             ?elements:Int,
-            ?array:Array<Float>,
+            ?array:Array<T>,
             ?view:ArrayBufferView,
             ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
         ) {
@@ -53,9 +54,10 @@ abstract Uint8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
 
     public var length (get, never):Int;
 
-       public inline function new(
+        @:generic
+       public inline function new<T>(
             ?elements:Int,
-            ?array:Array<Float>,
+            ?array:Array<T>,
             ?view:ArrayBufferView,
             ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
         ) {
