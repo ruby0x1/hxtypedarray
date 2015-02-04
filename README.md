@@ -43,7 +43,6 @@ Targets not compiling:
 - add unit tests for DataView [examples](https://github.com/inexorabletash/polyfill/blob/master/tests/typedarray_tests.js)
 - use haxe.unit for agnostic tests instead of moxha
 - throughput performance tests for regression
-- Document user facing API according to differences with spec
 
 #### Structure:
 - All IO operations go through the ArrayBufferIO path only, this allows for platform specific+endian changing  code to be easy to maintain, and not scattered across the rest.
@@ -56,10 +55,6 @@ Targets not compiling:
   - data store, haxe.io.Bytes abstract
 - [ArrayBufferView](https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView)
   - lightweight class, handles all underlying types
-- ArrayBufferIO
-  - encapsulated platform read/write
-  - handles endianness and platform specifics
-  - can use `using` on ArrayBuffers
 - [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView)
 - [Int8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array)
 - [Int16Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array)
@@ -77,11 +72,6 @@ Targets not compiling:
   - [spec for allowance](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-%typedarray%-typedarray), if A != B type, section 22.2.1.2 #17
   - should use FPHelper in future
   - spec for conversion, [get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvaluefrombuffer)/[set](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-setvalueinbuffer)
-- ArrayBufferView includes `bytesPerElement` as a local instance variable for code simplification and convenience
-- variadic constructors broken down into statics, i.e
-  - new(len) || new(buffer, offset, len) || new(array) || new(typedarray)
-  - becomes new(len) consistently for all types and super types
-  - Float32Array.fromArray/fromTypedArray/fromBuffer
 
 ### Contributors
 

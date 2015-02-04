@@ -1,5 +1,7 @@
 package typedarray;
 
+#if !js
+
 class ArrayBufferIO {
 
     #if !no_typedarray_inline inline #end
@@ -277,3 +279,9 @@ class ArrayBufferIO {
     } //_clamp
 
 }
+
+#else
+
+    #error "ArrayBufferIO is not used on js target, use DataView instead"
+
+#end //!js

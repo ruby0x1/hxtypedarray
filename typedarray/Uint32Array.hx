@@ -1,7 +1,42 @@
 package typedarray;
 
-import typedarray.ArrayBufferView;
-import typedarray.TypedArrayType;
+#if js
+
+    @:forward
+    @:arrayAccess
+    abstract Uint32Array(js.html.Uint32Array)
+        from js.html.Uint32Array
+        to js.html.Uint32Array {
+
+        public inline function new(
+            ?elements:Int,
+            ?array:Array<Float>,
+            ?view:ArrayBufferView,
+            ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
+        ) {
+            if(elements != null) {
+                this = new js.html.Uint32Array( elements );
+            } else if(array != null) {
+                this = new js.html.Uint32Array( untyped array );
+            } else if(view != null) {
+                this = new js.html.Uint32Array( untyped view );
+            } else if(buffer != null) {
+                len = (len == null) ? untyped __js__('undefined') : len;
+                this = new js.html.Uint32Array( buffer, byteoffset, len );
+            } else {
+                this = null;
+            }
+        }
+
+        @:arrayAccess inline function __set(idx:Int, val:UInt) return this[idx] = val;
+        @:arrayAccess inline function __get(idx:Int) : UInt return this[idx];
+
+    }
+
+#else
+
+    import typedarray.ArrayBufferView;
+    import typedarray.TypedArrayType;
 
 @:forward()
 @:arrayAccess
@@ -11,41 +46,30 @@ abstract Uint32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public var length (get, never):Int;
 
-    public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, Uint32 );
+        public inline function new(
+            ?elements:Int,
+            ?array:Array<Float>,
+            ?view:ArrayBufferView,
+            ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
+        ) {
 
-    public static inline function fromArray( array:Array<Float> ) : Uint32Array
-        return new Uint32Array(0).initArray( array );
-
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint32Array
-        return new Uint32Array(0).initBuffer( buffer, byteOffset, count );
-
-    public static inline function fromTypedArray( view:ArrayBufferView ) : Uint32Array
-        return new Uint32Array(0).initTypedArray( view );
+            if(elements != null) {
+                this = new ArrayBufferView( elements, Uint32 );
+            } else if(array != null) {
+                this = new ArrayBufferView(0, Uint32).initArray(array);
+            } else if(view != null) {
+                this = new ArrayBufferView(0, Uint32).initTypedArray(view);
+            } else if(buffer != null) {
+                this = new ArrayBufferView(0, Uint32).initBuffer(buffer, byteoffset, len);
+            } else {
+                throw "Invalid constructor arguments for Uint32Array";
+            }
+        }
 
 //Public API
 
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Uint32Array return this.subarray(begin, end);
-
-//Compatibility
-
-#if js
-    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
-        switch(untyped a.constructor) {
-            case js.html.Uint32Array:
-                return new ArrayBufferView(0, Uint32).initTypedArray(untyped a);
-            case _: return throw "wrong type";
-        }
-    }
-    @:from static function fromUint32Array(a:js.html.Uint32Array) : Uint32Array
-        return new Uint32Array(0).initTypedArray(untyped a);
-
-    @:to function toArrayBufferView(): js.html.ArrayBufferView
-        return untyped this.buffer.b;
-    @:to function toUint32Array(): js.html.Uint32Array
-        return untyped this.buffer.b;
-#end
 
 //Internal
 
@@ -55,22 +79,15 @@ abstract Uint32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     @:noCompletion
     @:arrayAccess
     public inline function __get(idx:Int) {
-        #if js
-        untyped return (untyped this.buffer.b)[(this.byteOffset/BYTES_PER_ELEMENT)+idx];
-        #else
         return ArrayBufferIO.getUint32(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT));
-        #end
     }
 
     @:noCompletion
     @:arrayAccess
     public inline function __set(idx:Int, val:UInt) {
-        #if js
-        untyped return (untyped this.buffer.b)[(this.byteOffset/BYTES_PER_ELEMENT)+idx] = val;
-        #else
         return ArrayBufferIO.setUint32(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT), val);
-        #end
     }
 
 }
 
+#end //!js

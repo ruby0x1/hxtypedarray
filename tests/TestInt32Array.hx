@@ -36,7 +36,7 @@ class TestInt32Array extends mohxa.Mohxa {
 
             log('creating Int32Array from array of 2 [17,-45]');
 
-            var x = Int32Array.fromArray([17, -45]);
+            var x = new Int32Array([17, -45]);
 
             it('should be correctly constructed from array of Int', function(){
                 equal( 17, x[0], 'element [0] == 17' );
@@ -51,8 +51,8 @@ class TestInt32Array extends mohxa.Mohxa {
             log('creating Int32Array x from array of 2 [17,-45]');
             log('creating second Int32Array y from first array .buffer');
 
-            var x = Int32Array.fromArray([17, -45]);
-            var y = Int32Array.fromBuffer(x.buffer);
+            var x = new Int32Array([17, -45]);
+            var y = new Int32Array(x.buffer);
 
             it('should share a buffer from other array buffer', function(){
 
@@ -79,8 +79,8 @@ class TestInt32Array extends mohxa.Mohxa {
             log('creating Int32Array x from array of 2 [17,-45]');
             log('creating second Int32Array y from first array itself');
 
-            var x = Int32Array.fromArray([17, -45]);
-            var y = Int32Array.fromTypedArray(x);
+            var x = new Int32Array([17, -45]);
+            var y = new Int32Array(x);
 
             it('should share a buffer from other array', function(){
 
@@ -107,8 +107,8 @@ class TestInt32Array extends mohxa.Mohxa {
             log('creating ArrayBuffer(12) and x,y as Int32Array with buffer and mapping');
 
             var buffer = new ArrayBuffer(12);
-            var x = Int32Array.fromBuffer(buffer, 0, 2);
-            var y = Int32Array.fromBuffer(buffer, 4, 1);
+            var x = new Int32Array(buffer, 0, 2);
+            var y = new Int32Array(buffer, 4, 1);
 
             log('setting x[1] = 7');
 
@@ -130,7 +130,7 @@ class TestInt32Array extends mohxa.Mohxa {
 
             log('calling set([18,93,42],3)');
 
-            x.setFromArray([18, 93, 42], 3);
+            x.set([18, 93, 42], 3);
 
             it('should set from normal int array', function(){
 
@@ -148,9 +148,9 @@ class TestInt32Array extends mohxa.Mohxa {
 
             var x = new Int32Array(10);
 
-            log('calling set(Int32Array.fromArray([18, 93, 42]), 3)');
+            log('calling set(new Int32Array([18, 93, 42]), 3)');
 
-            x.set(Int32Array.fromArray([18, 93, 42]), 3);
+            x.set(new Int32Array([18, 93, 42]), 3);
 
             it('should set from other Int32Array', function(){
 
@@ -166,7 +166,7 @@ class TestInt32Array extends mohxa.Mohxa {
 
             log('creating x = Int32Array([0, 1, 2, 3, 4, 5])');
 
-            var x = Int32Array.fromArray([0, 1, 2, 3, 4, 5]);
+            var x = new Int32Array([0, 1, 2, 3, 4, 5]);
 
             log('creating y = x.subarray(2,5)');
 

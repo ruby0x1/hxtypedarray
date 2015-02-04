@@ -41,7 +41,7 @@ class TestUInt8ClampedArray extends mohxa.Mohxa {
 
             log('creating Uint8ClampedArray from array of 2 [17,-45.3]');
 
-            var x = Uint8ClampedArray.fromArray([17, -45.3]);
+            var x = new Uint8ClampedArray([17, -45.3]);
 
             it('should be correctly constructed from array of Int, clamping negative value', function(){
                 equal( 17, x[0], 'element [0] == 17' );
@@ -56,8 +56,8 @@ class TestUInt8ClampedArray extends mohxa.Mohxa {
             log('creating Uint8ClampedArray x from array of 2 [17,-45.3]');
             log('creating second Uint8ClampedArray y from first array .buffer');
 
-            var x = Uint8ClampedArray.fromArray([17, -45.3]);
-            var y = Uint8ClampedArray.fromBuffer(x.buffer);
+            var x = new Uint8ClampedArray([17, -45.3]);
+            var y = new Uint8ClampedArray(x.buffer);
 
             it('should share a buffer from other array buffer, wrapped value', function(){
 
@@ -84,8 +84,8 @@ class TestUInt8ClampedArray extends mohxa.Mohxa {
             log('creating Uint8ClampedArray x from array of 2 [17,-45.3]');
             log('creating second Uint8ClampedArray y from first array itself');
 
-            var x = Uint8ClampedArray.fromArray([17, -45.3]);
-            var y = Uint8ClampedArray.fromTypedArray(x);
+            var x = new Uint8ClampedArray([17, -45.3]);
+            var y = new Uint8ClampedArray(x);
 
             it('should share a buffer from other array', function(){
 
@@ -112,8 +112,8 @@ class TestUInt8ClampedArray extends mohxa.Mohxa {
             log('creating ArrayBuffer(12) and x,y as Uint8ClampedArray with buffer and mapping');
 
             var buffer = new ArrayBuffer(12);
-            var x = Uint8ClampedArray.fromBuffer(buffer, 0, 2);
-            var y = Uint8ClampedArray.fromBuffer(buffer, 4, 1);
+            var x = new Uint8ClampedArray(buffer, 0, 2);
+            var y = new Uint8ClampedArray(buffer, 4, 1);
 
             log('setting x[1] = 7');
 
@@ -135,7 +135,7 @@ class TestUInt8ClampedArray extends mohxa.Mohxa {
 
             log('calling set([18,93,42],3)');
 
-            x.setFromArray([18, 93, 42], 3);
+            x.set([18, 93, 42], 3);
 
             it('should set from normal int array', function(){
 
@@ -153,9 +153,9 @@ class TestUInt8ClampedArray extends mohxa.Mohxa {
 
             var x = new Uint8ClampedArray(10);
 
-            log('calling set(Uint8ClampedArray.fromArray([18, 93, 42]), 3)');
+            log('calling set(new Uint8ClampedArray([18, 93, 42]), 3)');
 
-            x.set(Uint8ClampedArray.fromArray([18, 93, 42]), 3);
+            x.set(new Uint8ClampedArray([18, 93, 42]), 3);
 
             it('should set from other Uint8ClampedArray', function(){
 
@@ -171,7 +171,7 @@ class TestUInt8ClampedArray extends mohxa.Mohxa {
 
             log('creating x = Uint8ClampedArray([0, 1, 2, 3, 4, 5])');
 
-            var x = Uint8ClampedArray.fromArray([0, 1, 2, 3, 4, 5]);
+            var x = new Uint8ClampedArray([0, 1, 2, 3, 4, 5]);
 
             log('creating y = x.subarray(2,5)');
 

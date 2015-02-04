@@ -36,7 +36,7 @@ class TestUInt16Array extends mohxa.Mohxa {
 
             log('creating Uint16Array from array of 2 [17,-45]');
 
-            var x = Uint16Array.fromArray([17, -45]);
+            var x = new Uint16Array([17, -45]);
 
             it('should be correctly constructed from array of Int, wrapping negative value', function(){
                 equal( 17, x[0], 'element [0] == 17' );
@@ -51,8 +51,8 @@ class TestUInt16Array extends mohxa.Mohxa {
             log('creating Uint16Array x from array of 2 [17,-45]');
             log('creating second Uint16Array y from first array .buffer');
 
-            var x = Uint16Array.fromArray([17, -45]);
-            var y = Uint16Array.fromBuffer(x.buffer);
+            var x = new Uint16Array([17, -45]);
+            var y = new Uint16Array(x.buffer);
 
             it('should share a buffer from other array buffer, wrapped value', function(){
 
@@ -79,8 +79,8 @@ class TestUInt16Array extends mohxa.Mohxa {
             log('creating Uint16Array x from array of 2 [17,-45]');
             log('creating second Uint16Array y from first array itself');
 
-            var x = Uint16Array.fromArray([17, -45]);
-            var y = Uint16Array.fromTypedArray(x);
+            var x = new Uint16Array([17, -45]);
+            var y = new Uint16Array(x);
 
             it('should share a buffer from other array', function(){
 
@@ -107,8 +107,8 @@ class TestUInt16Array extends mohxa.Mohxa {
             log('creating ArrayBuffer(12) and x,y as Uint16Array with buffer and mapping');
 
             var buffer = new ArrayBuffer(12);
-            var x = Uint16Array.fromBuffer(buffer, 0, 6);
-            var y = Uint16Array.fromBuffer(buffer, 4, 1);
+            var x = new Uint16Array(buffer, 0, 6);
+            var y = new Uint16Array(buffer, 4, 1);
 
             log('setting x[2] = 4');
 
@@ -130,7 +130,7 @@ class TestUInt16Array extends mohxa.Mohxa {
 
             log('calling set([18,93,42],3)');
 
-            x.setFromArray([18, 93, 42], 3);
+            x.set([18, 93, 42], 3);
 
             it('should set from normal int array', function(){
 
@@ -148,9 +148,9 @@ class TestUInt16Array extends mohxa.Mohxa {
 
             var x = new Uint16Array(10);
 
-            log('calling set(Uint16Array.fromArray([18, 93, 42]), 3)');
+            log('calling set(new Uint16Array([18, 93, 42]), 3)');
 
-            x.set(Uint16Array.fromArray([18, 93, 42]), 3);
+            x.set(new Uint16Array([18, 93, 42]), 3);
 
             it('should set from other Uint16Array', function(){
 
@@ -166,7 +166,7 @@ class TestUInt16Array extends mohxa.Mohxa {
 
             log('creating x = Uint16Array([0, 1, 2, 3, 4, 5])');
 
-            var x = Uint16Array.fromArray([0, 1, 2, 3, 4, 5]);
+            var x = new Uint16Array([0, 1, 2, 3, 4, 5]);
 
             log('creating y = x.subarray(2,5)');
 

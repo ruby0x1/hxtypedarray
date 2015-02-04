@@ -1,7 +1,42 @@
 package typedarray;
 
-import typedarray.ArrayBufferView;
-import typedarray.TypedArrayType;
+#if js
+
+    @:forward
+    @:arrayAccess
+    abstract Int8Array(js.html.Int8Array)
+        from js.html.Int8Array
+        to js.html.Int8Array {
+
+        public inline function new(
+            ?elements:Int,
+            ?array:Array<Float>,
+            ?view:ArrayBufferView,
+            ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
+        ) {
+            if(elements != null) {
+                this = new js.html.Int8Array( elements );
+            } else if(array != null) {
+                this = new js.html.Int8Array( untyped array );
+            } else if(view != null) {
+                this = new js.html.Int8Array( untyped view );
+            } else if(buffer != null) {
+                len = (len == null) ? untyped __js__('undefined') : len;
+                this = new js.html.Int8Array( buffer, byteoffset, len );
+            } else {
+                this = null;
+            }
+        }
+
+        @:arrayAccess inline function __set(idx:Int, val:UInt) return this[idx] = val;
+        @:arrayAccess inline function __get(idx:Int) : UInt return this[idx];
+
+    }
+
+#else
+
+    import typedarray.ArrayBufferView;
+    import typedarray.TypedArrayType;
 
 @:forward()
 @:arrayAccess
@@ -11,41 +46,30 @@ abstract Int8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
     public var length (get, never):Int;
 
-    public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, Int8 );
+        public inline function new(
+            ?elements:Int,
+            ?array:Array<Float>,
+            ?view:ArrayBufferView,
+            ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
+        ) {
 
-    public static inline function fromArray( array:Array<Float> ) : Int8Array
-        return new Int8Array(0).initArray( array );
-
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Int8Array
-        return new Int8Array(0).initBuffer( buffer, byteOffset, count );
-
-    public static inline function fromTypedArray( view:ArrayBufferView ) : Int8Array
-        return new Int8Array(0).initTypedArray( view );
+            if(elements != null) {
+                this = new ArrayBufferView( elements, Int8 );
+            } else if(array != null) {
+                this = new ArrayBufferView(0, Int8).initArray(array);
+            } else if(view != null) {
+                this = new ArrayBufferView(0, Int8).initTypedArray(view);
+            } else if(buffer != null) {
+                this = new ArrayBufferView(0, Int8).initBuffer(buffer, byteoffset, len);
+            } else {
+                throw "Invalid constructor arguments for Int8Array";
+            }
+        }
 
 //Public API
 
         //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Int8Array return this.subarray(begin, end);
-
-//Compatibility
-
-#if js
-    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
-        switch(untyped a.constructor) {
-            case js.html.Int8Array:
-                return new Int8Array(0).initTypedArray(untyped a);
-            case _: return throw "wrong type";
-        }
-    }
-    @:from static function fromInt8Array(a:js.html.Int8Array) : Int8Array
-        return new Int8Array(0).initTypedArray(untyped a);
-
-    @:to function toArrayBufferView(): js.html.ArrayBufferView
-        return untyped this.buffer.b;
-    @:to function toInt8Array(): js.html.Int8Array
-        return untyped this.buffer.b;
-#end
 
 //Internal
 
@@ -55,21 +79,15 @@ abstract Int8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     @:noCompletion
     @:arrayAccess
     public inline function __get(idx:Int) {
-        #if js
-        untyped return (untyped this.buffer.b)[(this.byteOffset/BYTES_PER_ELEMENT)+idx];
-        #else
         return ArrayBufferIO.getInt8(this.buffer, this.byteOffset+idx);
-        #end
     }
 
     @:noCompletion
     @:arrayAccess
     public inline function __set(idx:Int, val:Int) {
-        #if js
-        untyped return (untyped this.buffer.b)[(this.byteOffset/BYTES_PER_ELEMENT)+idx] = val;
-        #else
         return ArrayBufferIO.setInt8(this.buffer, this.byteOffset+idx, val);
-        #end
     }
 
 }
+
+#end //!js

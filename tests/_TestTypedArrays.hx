@@ -17,7 +17,7 @@ class _TestTypedArrays {
         Mohxa.verbose = true;
 
         var t = new typedarray.Float32Array(4);
-            t.setFromArray([1,2,3,4]);
+            t.set([1,2,3,4]);
 
         var d = new DataView(t.buffer);
             d.setFloat32(0, 6);

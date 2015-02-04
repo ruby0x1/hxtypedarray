@@ -1,7 +1,49 @@
 package typedarray;
 
-import typedarray.ArrayBufferView;
-import typedarray.TypedArrayType;
+#if js
+
+    @:forward
+    @:arrayAccess
+    abstract Uint8ClampedArray(js.html.Uint8ClampedArray)
+        from js.html.Uint8ClampedArray
+        to js.html.Uint8ClampedArray {
+
+        public inline function new(
+            ?elements:Int,
+            ?array:Array<Float>,
+            ?view:ArrayBufferView,
+            ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
+        ) {
+            if(elements != null) {
+                this = new js.html.Uint8ClampedArray( elements );
+            } else if(array != null) {
+                this = new js.html.Uint8ClampedArray( untyped array );
+            } else if(view != null) {
+                this = new js.html.Uint8ClampedArray( untyped view );
+            } else if(buffer != null) {
+                len = (len == null) ? untyped __js__('undefined') : len;
+                this = new js.html.Uint8ClampedArray( buffer, byteoffset, len );
+            } else {
+                this = null;
+            }
+        }
+
+        @:arrayAccess inline function __set(idx:Int, val:UInt) return this[idx] = _clamp(val);
+        @:arrayAccess inline function __get(idx:Int) : UInt return this[idx];
+
+        //clamp a Int to a 0-255 Uint8
+        static function _clamp(_in:Float) : Int {
+            var _out = Std.int(_in);
+            _out = _out > 255 ? 255 : _out;
+            return _out < 0 ? 0 : _out;
+        } //_clamp
+
+    }
+
+#else
+
+    import typedarray.ArrayBufferView;
+    import typedarray.TypedArrayType;
 
 @:forward()
 @:arrayAccess
@@ -11,43 +53,30 @@ abstract Uint8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
 
     public var length (get, never):Int;
 
-    public inline function new( elements:Int )
-        this = new ArrayBufferView( elements, Uint8Clamped );
+       public inline function new(
+            ?elements:Int,
+            ?array:Array<Float>,
+            ?view:ArrayBufferView,
+            ?buffer:ArrayBuffer, ?byteoffset:Int = 0, ?len:Null<Int>
+        ) {
 
-    public static inline function fromArray( array:Array<Float> ) : Uint8ClampedArray
-        return new Uint8ClampedArray(0).initArray( array );
-
-    public static inline function fromBuffer( buffer:ArrayBuffer, ? byteOffset:Int = 0, count:Null<Int> = null ) : Uint8ClampedArray
-        return new Uint8ClampedArray(0).initBuffer( buffer, byteOffset, count );
-
-    public static inline function fromTypedArray( view:ArrayBufferView ) : Uint8ClampedArray
-        return new Uint8ClampedArray(0).initTypedArray( view );
+            if(elements != null) {
+                this = new ArrayBufferView( elements, Uint8Clamped );
+            } else if(array != null) {
+                this = new ArrayBufferView(0, Uint8Clamped).initArray(array);
+            } else if(view != null) {
+                this = new ArrayBufferView(0, Uint8Clamped).initTypedArray(view);
+            } else if(buffer != null) {
+                this = new ArrayBufferView(0, Uint8Clamped).initBuffer(buffer, byteoffset, len);
+            } else {
+                throw "Invalid constructor arguments for Uint8ClampedArray";
+            }
+        }
 
 //Public API
 
-        //still busy with this
+        //these enforce the types needed
     public inline function subarray( begin:Int, end:Null<Int> = null) : Uint8ClampedArray return this.subarray(begin, end);
-
-//Compatibility
-
-#if js
-    @:from static function fromArrayBufferView(a:js.html.ArrayBufferView) {
-        switch(untyped a.constructor) {
-            case js.html.Uint8Array, js.html.Uint8ClampedArray:
-                return new ArrayBufferView(0, Uint8Clamped).initTypedArray(untyped a);
-            case _: return throw "unimplemented";
-        }
-    }
-    @:from static function fromUint8Array(a:Uint8Array)
-        return new Uint8Array(0).initTypedArray(untyped a);
-    @:from static function fromUint8ClampedArray(a:Uint8ClampedArray) : Uint8ClampedArray
-        return new Uint8ClampedArray(0).initTypedArray(untyped a);
-
-    @:to function toArrayBufferView(): js.html.ArrayBufferView
-        return untyped this.buffer.b;
-    @:to function toUint8ClampedArray(): js.html.Uint8ClampedArray
-        return untyped this.buffer.b;
-#end
 
 //Internal
 
@@ -57,23 +86,16 @@ abstract Uint8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
     @:noCompletion
     @:arrayAccess
     public inline function __get(idx:Int) {
-        #if js
-        untyped return (untyped this.buffer.b)[(this.byteOffset/BYTES_PER_ELEMENT)+idx];
-        #else
         return ArrayBufferIO.getUint8(this.buffer, this.byteOffset+idx);
-        #end
     }
 
     @:noCompletion
     @:arrayAccess
     public inline function __set(idx:Int, val:UInt) {
-        #if js
-        untyped return (untyped this.buffer.b)[(this.byteOffset/BYTES_PER_ELEMENT)+idx] = val;
-        #else
         return ArrayBufferIO.setUint8Clamped(this.buffer, this.byteOffset+idx, val);
-        #end
     }
 
 
 }
 
+#end //!js

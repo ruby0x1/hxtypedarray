@@ -1,15 +1,23 @@
 package typedarray;
 
+#if js
+
+    typedef ArrayBufferView = js.html.ArrayBufferView;
+
+#else
+
 import typedarray.TypedArrayType;
 
 class ArrayBufferView {
 
     public var type = TypedArrayType.None;
-    public var bytesPerElement (default,null) : Int = 0;
     public var buffer:ArrayBuffer;
     public var byteOffset:Int;
     public var byteLength:Int;
     public var length:Int;
+
+            //internal for avoiding switching on types
+        var bytesPerElement (default,null) : Int = 0;
 
     @:allow(typedarray)
     #if !no_typedarray_inline inline #end
@@ -28,11 +36,7 @@ class ArrayBufferView {
 
             byteOffset = 0;
             byteLength = toByteLength(elements);
-            #if js
-            buffer = initJSArray( untyped elements );
-            #else
             buffer = new ArrayBuffer( byteLength );
-            #end
             length = elements;
 
         }
@@ -51,13 +55,6 @@ class ArrayBufferView {
         var srcElementSize = view.bytesPerElement;
         var elementSize = bytesPerElement;
 
-        #if js
-            if(Std.is(view, ArrayBufferView)) {
-                buffer = initJSArray(untyped view.buffer.b);
-            } else {
-                buffer = initJSArray(untyped view);
-            }
-        #else
                 //same species, so just blit the data
                 //in other words, it shares the same bytes per element etc
             if(view.type == type) {
@@ -66,7 +63,6 @@ class ArrayBufferView {
                 //see :note:1: below use FPHelper!
                 throw ("unimplemented");
             }
-        #end
 
         byteLength = bytesPerElement * srcLength;
         byteOffset = 0;
@@ -83,12 +79,7 @@ class ArrayBufferView {
         if(in_byteOffset < 0) throw TAError.RangeError;
         if(in_byteOffset % bytesPerElement != 0) throw TAError.RangeError;
 
-        #if js
-        var bufferByteLength = untyped in_buffer.b.byteLength;
-        #else
         var bufferByteLength = in_buffer.length;
-        #end
-
         var elementSize = bytesPerElement;
         var newByteLength = bufferByteLength;
 
@@ -126,12 +117,8 @@ class ArrayBufferView {
         length = array.length;
         byteLength = toByteLength(length);
 
-        #if js
-        buffer = initJSArray(untyped array);
-        #else
         buffer = new ArrayBuffer( byteLength );
         copyFromArray(cast array);
-        #end
 
         return this;
 
@@ -139,62 +126,23 @@ class ArrayBufferView {
 
 
 //Public shared APIs
+
+    //T is required because it can translate [0,0] as Int array
     #if !no_typedarray_inline inline #end
-    public function set( view:ArrayBufferView, offset:Int = 0 ) : Void {
+    public function set<T>( ?view:ArrayBufferView, ?array:Array<T>, offset:Int = 0 ) : Void {
 
-        #if js
-        untyped buffer.b.set(cast view.buffer.b,offset);
-        #else
-        buffer.blit( toByteLength(offset), view.buffer, view.byteOffset, view.buffer.length );
-        #end
-
-    }
-
-    @:generic
-    #if !no_typedarray_inline inline #end
-    public function setFromArray<T>( ?array:Array<T>, offset:Int = 0 ) {
-
-        #if js
-        untyped buffer.b.set(cast array,offset);
-        #else
-        copyFromArray(cast array, offset);
-        #end
+        if(view != null && array == null) {
+            buffer.blit( toByteLength(offset), view.buffer, view.byteOffset, view.buffer.length );
+        } else if(array != null && view == null) {
+            copyFromArray(cast array, offset);
+        } else {
+            throw "Invalid .set call. either view, or array must be not-null.";
+        }
 
     }
 
 
 //Internal TypedArray api
-
-    //mimicks the 4 return constructor types
-    #if js
-    inline function initJSArray(a0,?a1,?a2) {
-
-        var data = switch(type) {
-            case Int8:
-                untyped new js.html.Int8Array(a0,a1,a2);
-            case Int16:
-                untyped new js.html.Int16Array(a0,a1,a2);
-            case Int32:
-                untyped new js.html.Int32Array(a0,a1,a2);
-            case Uint8:
-                untyped new js.html.Uint8Array(a0,a1,a2);
-            case Uint8Clamped:
-                untyped new js.html.Uint8ClampedArray(a0,a1,a2);
-            case Uint16:
-                untyped new js.html.Uint16Array(a0,a1,a2);
-            case Uint32:
-                untyped new js.html.Uint32Array(a0,a1,a2);
-            case Float32:
-                untyped new js.html.Float32Array(a0,a1,a2);
-            case Float64:
-                untyped new js.html.Float64Array(a0,a1,a2);
-            case None:
-                throw "operation on a base type ArrayBuffer";
-        }
-
-        return haxe.io.Bytes.ofData( cast data );
-    }
-    #end
 
     #if !no_typedarray_inline inline #end
     function cloneBuffer(src:ArrayBuffer, srcByteOffset:Int = 0) {
@@ -221,31 +169,31 @@ class ArrayBufferView {
             switch(type) {
 
                 case Int8:
-                     Int8Array.fromBuffer(buffer, byte_offset, len);
+                         new Int8Array(buffer, byte_offset, len);
 
                 case Int16:
-                     Int16Array.fromBuffer(buffer, byte_offset, len);
+                         new Int16Array(buffer, byte_offset, len);
 
                 case Int32:
-                     Int32Array.fromBuffer(buffer, byte_offset, len);
+                         new Int32Array(buffer, byte_offset, len);
 
                 case Uint8:
-                     Uint8Array.fromBuffer(buffer, byte_offset, len);
+                         new Uint8Array(buffer, byte_offset, len);
 
                 case Uint8Clamped:
-                     Uint8ClampedArray.fromBuffer(buffer, byte_offset, len);
+                         new Uint8ClampedArray(buffer, byte_offset, len);
 
                 case Uint16:
-                     Uint16Array.fromBuffer(buffer, byte_offset, len);
+                         new Uint16Array(buffer, byte_offset, len);
 
                 case Uint32:
-                     Uint32Array.fromBuffer(buffer, byte_offset, len);
+                         new Uint32Array(buffer, byte_offset, len);
 
                 case Float32:
-                     Float32Array.fromBuffer(buffer, byte_offset, len);
+                         new Float32Array(buffer, byte_offset, len);
 
                 case Float64:
-                     Float64Array.fromBuffer(buffer, byte_offset, len);
+                         new Float64Array(buffer, byte_offset, len);
 
                 case None:
                     throw "subarray on a blank ArrayBufferView";
@@ -381,3 +329,5 @@ class ArrayBufferView {
     }
 
 } //ArrayBufferView
+
+#end //!js

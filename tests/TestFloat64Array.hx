@@ -36,7 +36,7 @@ class TestFloat64Array extends mohxa.Mohxa {
 
             log('creating Float64Array from array of 2 [17,-45.3]');
 
-            var x = Float64Array.fromArray([17, -45.3]);
+            var x = new Float64Array([17, -45.3]);
 
             it('should be correctly constructed from array of Int', function(){
                 equalfloat( 17.0, x[0], 'element [0] == 17.0' );
@@ -51,8 +51,8 @@ class TestFloat64Array extends mohxa.Mohxa {
             log('creating Float64Array x from array of 2 [17,-45.3]');
             log('creating second Float64Array y from first array .buffer');
 
-            var x = Float64Array.fromArray([17, -45.3]);
-            var y = Float64Array.fromBuffer(x.buffer);
+            var x = new Float64Array([17, -45.3]);
+            var y = new Float64Array(x.buffer);
 
             it('should share a buffer from other array buffer', function(){
 
@@ -79,8 +79,8 @@ class TestFloat64Array extends mohxa.Mohxa {
             log('creating Float64Array x from array of 2 [17,-45.3]');
             log('creating second Float64Array y from first array itself');
 
-            var x = Float64Array.fromArray([17, -45.3]);
-            var y = Float64Array.fromTypedArray(x);
+            var x = new Float64Array([17, -45.3]);
+            var y = new Float64Array(x);
 
             it('should share a buffer from other array', function(){
 
@@ -107,8 +107,8 @@ class TestFloat64Array extends mohxa.Mohxa {
             log('creating ArrayBuffer(16) and x,y as Float64Array with buffer and mapping');
 
             var buffer = new ArrayBuffer(16);
-            var x = Float64Array.fromBuffer(buffer, 0, 2);
-            var y = Float64Array.fromBuffer(buffer, 8, 1);
+            var x = new Float64Array(buffer, 0, 2);
+            var y = new Float64Array(buffer, 8, 1);
 
             log('setting x[1] = 7');
 
@@ -130,7 +130,7 @@ class TestFloat64Array extends mohxa.Mohxa {
 
             log('calling set([18,93,42],3)');
 
-            x.setFromArray([18, 93, 42], 3);
+            x.set([18, 93, 42], 3);
 
             it('should set from normal int array', function(){
 
@@ -150,7 +150,7 @@ class TestFloat64Array extends mohxa.Mohxa {
 
             log('calling set(new Float64Array([18, 93, 42]), 3)');
 
-            x.set(Float64Array.fromArray([18, 93, 42]), 3);
+            x.set(new Float64Array([18, 93, 42]), 3);
 
             it('should set from other Float64Array', function(){
 
@@ -166,7 +166,7 @@ class TestFloat64Array extends mohxa.Mohxa {
 
             log('creating x = Float64Array([0, 1, 2, 3, 4, 5])');
 
-            var x = Float64Array.fromArray([0, 1, 2, 3, 4, 5]);
+            var x = new Float64Array([0, 1, 2, 3, 4, 5]);
 
             log('creating y = x.subarray(2,5)');
 
