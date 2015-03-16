@@ -32,6 +32,17 @@ package typedarray;
         @:arrayAccess inline function __set(idx:Int, val:UInt) return this[idx] = _clamp(val);
         @:arrayAccess inline function __get(idx:Int) : UInt return this[idx];
 
+
+            //non spec haxe conversions
+        public static function fromBytes( bytes:haxe.io.Bytes, ?byteOffset:Int=0, ?len:Int ) : Uint8ClampedArray {
+            return new js.html.Uint8ClampedArray(cast bytes.getData(), byteOffset, len);
+        }
+
+        public function toBytes() : haxe.io.Bytes {
+            return @:privateAccess new haxe.io.Bytes( this.byteLength, cast new js.html.Uint8Array(this.buffer) );
+        }
+
+        //internal
         //clamp a Int to a 0-255 Uint8
         static function _clamp(_in:Float) : Int {
             var _out = Std.int(_in);
@@ -77,8 +88,17 @@ abstract Uint8ClampedArray(ArrayBufferView) from ArrayBufferView to ArrayBufferV
 
 //Public API
 
-        //these enforce the types needed
     public inline function subarray( begin:Int, end:Null<Int> = null) : Uint8ClampedArray return this.subarray(begin, end);
+
+
+            //non spec haxe conversions
+        public static function fromBytes( bytes:haxe.io.Bytes, ?byteOffset:Int=0, ?len:Int ) : Uint8ClampedArray {
+            return new Uint8ClampedArray(bytes, byteOffset, len);
+        }
+
+        public function toBytes() : haxe.io.Bytes {
+            return this.buffer;
+        }
 
 //Internal
 

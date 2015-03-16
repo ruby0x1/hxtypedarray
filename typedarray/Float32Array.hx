@@ -32,6 +32,16 @@ package typedarray;
         @:arrayAccess inline function __set(idx:Int, val:Float) return this[idx] = val;
         @:arrayAccess inline function __get(idx:Int) : Float return this[idx];
 
+
+            //non spec haxe conversions
+        public static function fromBytes( bytes:haxe.io.Bytes, ?byteOffset:Int=0, ?len:Int ) : Float32Array {
+            return new js.html.Float32Array(cast bytes.getData(), byteOffset, len);
+        }
+
+        public function toBytes() : haxe.io.Bytes {
+            return @:privateAccess new haxe.io.Bytes( this.byteLength, cast new js.html.Uint8Array(this.buffer) );
+    }
+
     }
 
 #else
@@ -70,8 +80,17 @@ abstract Float32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
 //Public API
 
-        //still busy with this
     public inline function subarray( begin:Int, end:Null<Int> = null) : Float32Array return this.subarray(begin, end);
+
+
+            //non spec haxe conversions
+        public static function fromBytes( bytes:haxe.io.Bytes, ?byteOffset:Int=0, ?len:Int ) : Float32Array {
+            return new Float32Array(bytes, byteOffset, len);
+        }
+
+        public function toBytes() : haxe.io.Bytes {
+            return this.buffer;
+        }
 
 //Internal
 
