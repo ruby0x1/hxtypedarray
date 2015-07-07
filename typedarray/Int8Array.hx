@@ -46,6 +46,8 @@ package typedarray;
             #end
     }
 
+        function toString() return 'Int8Array [byteLength:${this.byteLength}, length:${this.length}]';
+
     }
 
 #else
@@ -89,7 +91,9 @@ abstract Int8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
 
             //non spec haxe conversions
         public static function fromBytes( bytes:haxe.io.Bytes, ?byteOffset:Int=0, ?len:Int ) : Int8Array {
-            return new Int8Array(bytes, byteOffset, len);
+            if(byteOffset == null) return new Int8Array(cast bytes.getData());
+            if(len == null) return new Int8Array(cast bytes.getData(), byteOffset);
+            return new Int8Array(cast bytes.getData(), byteOffset, len);
         }
 
         public function toBytes() : haxe.io.Bytes {
@@ -112,6 +116,8 @@ abstract Int8Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     public inline function __set(idx:Int, val:Int) {
         return ArrayBufferIO.setInt8(this.buffer, this.byteOffset+idx, val);
     }
+
+        function toString() return 'Int8Array [byteLength:${this.byteLength}, length:${this.length}]';
 
 }
 

@@ -35,6 +35,8 @@ package typedarray;
 
             //non spec haxe conversions
         public static function fromBytes( bytes:haxe.io.Bytes, ?byteOffset:Int=0, ?len:Int ) : Int16Array {
+            if(byteOffset == null) return new js.html.Int16Array(cast bytes.getData());
+            if(len == null) return new js.html.Int16Array(cast bytes.getData(), byteOffset);
             return new js.html.Int16Array(cast bytes.getData(), byteOffset, len);
         }
 
@@ -45,6 +47,8 @@ package typedarray;
                 return @:privateAccess new haxe.io.Bytes( cast new js.html.Uint8Array(this.buffer) );
             #end
     }
+
+        function toString() return 'Int16Array [byteLength:${this.byteLength}, length:${this.length}]';
 
     }
 
@@ -112,6 +116,8 @@ abstract Int16Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
     public inline function __set(idx:Int, val:Int) {
         return ArrayBufferIO.setInt16(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT), val);
     }
+
+        function toString() return 'Int16Array [byteLength:${this.byteLength}, length:${this.length}]';
 
 }
 

@@ -35,6 +35,8 @@ package typedarray;
 
             //non spec haxe conversions
         public static function fromBytes( bytes:haxe.io.Bytes, ?byteOffset:Int=0, ?len:Int ) : Float32Array {
+            if(byteOffset == null) return new js.html.Float32Array(cast bytes.getData());
+            if(len == null) return new js.html.Float32Array(cast bytes.getData(), byteOffset);
             return new js.html.Float32Array(cast bytes.getData(), byteOffset, len);
         }
 
@@ -45,6 +47,8 @@ package typedarray;
                 return @:privateAccess new haxe.io.Bytes( cast new js.html.Uint8Array(this.buffer) );
             #end
     }
+
+        function toString() return 'Float32Array [byteLength:${this.byteLength}, length:${this.length}]';
 
     }
 
@@ -97,6 +101,8 @@ abstract Float32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView {
         }
 
 //Internal
+
+        function toString() return 'Float32Array [byteLength:${this.byteLength}, length:${this.length}]';
 
     inline function get_length() return this.length;
 
