@@ -8,6 +8,8 @@ package typedarray;
         from js.html.Int16Array
         to js.html.Int16Array {
 
+        public inline static var BYTES_PER_ELEMENT : Int = 2;
+
         @:generic
         public inline function new<T>(
             ?elements:Int,
