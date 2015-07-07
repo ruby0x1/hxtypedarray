@@ -24,8 +24,11 @@ package typedarray;
             } else if(view != null) {
                 this = new js.html.Uint8ClampedArray( untyped view );
             } else if(buffer != null) {
-                len = (len == null) ? untyped __js__('undefined') : len;
-                this = new js.html.Uint8ClampedArray( buffer, byteoffset, len );
+                if (len == null) {
+                    this = new js.html.Uint8ClampedArray( buffer, byteoffset );
+                } else {
+                    this = new js.html.Uint8ClampedArray( buffer, byteoffset, len );
+                }
             } else {
                 this = null;
             }

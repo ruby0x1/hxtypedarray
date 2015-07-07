@@ -24,8 +24,11 @@ package typedarray;
             } else if(view != null) {
                 this = new js.html.Float64Array( untyped view );
             } else if(buffer != null) {
-                len = (len == null) ? untyped __js__('undefined') : len;
-                this = new js.html.Float64Array( buffer, byteoffset, len );
+                if(len == null) {
+                    this = new js.html.Float64Array( buffer, byteoffset );
+                } else {
+                    this = new js.html.Float64Array( buffer, byteoffset, len );
+                }
             } else {
                 this = null;
             }
