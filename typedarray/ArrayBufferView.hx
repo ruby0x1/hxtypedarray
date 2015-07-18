@@ -163,7 +163,7 @@ class ArrayBufferView {
 
         if (end == null) end == length;
         var len = end - begin;
-        var byte_offset = toByteLength(begin);
+        var byte_offset = toByteLength(begin) + byteOffset;
 
         var view : ArrayBufferView =
             switch(type) {
