@@ -53,7 +53,7 @@ package typedarray;
             #end
         }
 
-        function toString() return 'Float32Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return 'Float32Array [byteLength:${this.byteLength}, length:${this.length}]';
 
     }
 
