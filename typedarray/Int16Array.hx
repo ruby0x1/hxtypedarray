@@ -33,7 +33,7 @@ package typedarray;
             }
         }
 
-        @:arrayAccess @:extern inline function __set(idx:Int, val:Int) : Void this[idx] = val;
+        @:arrayAccess @:extern inline function __set(idx:Int, val:Int) : Int return this[idx] = val;
         @:arrayAccess @:extern inline function __get(idx:Int) : Int return this[idx];
 
 
@@ -116,8 +116,9 @@ package typedarray;
 
         @:noCompletion
         @:arrayAccess @:extern
-        public inline function __set(idx:Int, val:Int) : Void {
+        public inline function __set(idx:Int, val:Int) {
             ArrayBufferIO.setInt16(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT), val);
+            return val;
         }
 
         inline function toString() return this != null ? 'Int16Array [byteLength:${this.byteLength}, length:${this.length}]' : null;

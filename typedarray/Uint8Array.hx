@@ -33,7 +33,7 @@ package typedarray;
             }
         }
 
-        @:arrayAccess @:extern inline function __set(idx:Int, val:UInt) : Void this[idx] = val;
+        @:arrayAccess @:extern inline function __set(idx:Int, val:UInt) : UInt return this[idx] = val;
         @:arrayAccess @:extern inline function __get(idx:Int) : UInt return this[idx];
 
 
@@ -118,8 +118,9 @@ package typedarray;
 
         @:noCompletion
         @:arrayAccess @:extern
-        public inline function __set(idx:Int, val:UInt) : Void {
+        public inline function __set(idx:Int, val:UInt) {
             ArrayBufferIO.setUint8(this.buffer, this.byteOffset+idx, val);
+            return val;
         }
 
     }
