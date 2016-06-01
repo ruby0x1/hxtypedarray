@@ -52,7 +52,7 @@ package typedarray;
             #end
         }
 
-        function toString() return 'Float64Array [byteLength:${this.byteLength}, length:${this.length}]';
+        function toString() return this != null ? 'Float64Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 
@@ -120,7 +120,7 @@ package typedarray;
             ArrayBufferIO.setFloat64(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT), val);
         }
 
-        inline function toString() return 'Float64Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Float64Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 

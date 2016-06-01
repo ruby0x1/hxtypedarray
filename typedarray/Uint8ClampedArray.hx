@@ -52,7 +52,7 @@ package typedarray;
             #end
         }
 
-        inline function toString() return 'Uint8ClampedArray [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Uint8ClampedArray [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
         //internal
         //clamp a Int to a 0-255 Uint8
@@ -129,7 +129,7 @@ package typedarray;
             ArrayBufferIO.setUint8Clamped(this.buffer, this.byteOffset+idx, val);
         }
 
-        inline function toString() return 'Uint8ClampedArray [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Uint8ClampedArray [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 

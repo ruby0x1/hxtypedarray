@@ -52,7 +52,7 @@ package typedarray;
             #end
         }
 
-        inline function toString() return 'Int16Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Int16Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 
@@ -120,7 +120,7 @@ package typedarray;
             ArrayBufferIO.setInt16(this.buffer, this.byteOffset+(idx*BYTES_PER_ELEMENT), val);
         }
 
-        inline function toString() return 'Int16Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Int16Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 

@@ -50,7 +50,7 @@ package typedarray;
             #end
         }
 
-        inline function toString() return 'Int8Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Int8Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 
@@ -120,7 +120,7 @@ package typedarray;
             ArrayBufferIO.setInt8(this.buffer, this.byteOffset+idx, val);
         }
 
-        inline function toString() return 'Int8Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Int8Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 

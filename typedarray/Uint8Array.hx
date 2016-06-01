@@ -52,7 +52,7 @@ package typedarray;
             #end
         }
 
-        inline function toString() return 'Uint8Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Uint8Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
     }
 
@@ -105,7 +105,7 @@ package typedarray;
 
     //Internal
 
-        inline function toString() return 'Uint8Array [byteLength:${this.byteLength}, length:${this.length}]';
+        inline function toString() return this != null ? 'Uint8Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
         inline function get_length() return this.length;
 
